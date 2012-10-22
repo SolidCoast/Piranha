@@ -152,9 +152,10 @@ namespace Piranha.Web
 
 				str.AppendLine("<li" + (curr.Id == page.Id ? " class=\"active\"" : 
 					(ChildActive(page, curr.Id) ? " class=\"active-child	\"" : "")) + ">") ;
-				str.AppendLine(String.Format("<a href=\"{0}\">{1}</a>",
+				str.AppendLine(String.Format("<a {2} href=\"{0}\">{1}</a>",
 					GenerateUrl(url, page),
-					!String.IsNullOrEmpty(page.NavigationTitle) ? page.NavigationTitle : page.Title)) ;
+					!String.IsNullOrEmpty(page.NavigationTitle) ? page.NavigationTitle : page.Title,
+					!String.IsNullOrEmpty(page.NavigationTarget) ? "target=\"" + page.NavigationTarget + "\"" : "")) ;
 				if (page.Pages.Count > 0)
 					RenderUL(helper, curr, page.Pages, str, stoplevel) ;
 				str.AppendLine("</li>") ;

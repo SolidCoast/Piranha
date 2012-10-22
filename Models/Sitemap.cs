@@ -52,6 +52,11 @@ namespace Piranha.Models
 		[Column(Name="page_navigation_title")]
 		public string NavigationTitle { get ; set ; }
 
+		/// <summary>
+		/// Gets/sets the navigation target.
+		/// </summary>
+		[Column(Name="page_navigation_target")]
+		public string NavigationTarget { get ; set ; }
 
 		/// <summary>
 		/// Gets/sets weather the page should be visible in menus or not.
