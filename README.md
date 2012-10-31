@@ -10,6 +10,6 @@ Documentation and information about the project can be found on our main site:
 
 <a href="http://www.piranhacms.org">piranhacms.org</a>
 
-The current version of Piranha is 1.1.0 and the application template can be
+The current version of Piranha is 1.1.2 and the application template can be
 downloaded using NuGet. For more information, please refer to the documentation
 on our official site.
