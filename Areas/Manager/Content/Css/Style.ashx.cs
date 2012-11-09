@@ -1,13 +1,10 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Configuration;
 using System.IO;
-using System.Linq;
 using System.Reflection;
 using System.Web;
 
 using Piranha.Web;
-using Yahoo.Yui.Compressor;
 
 namespace Piranha.Areas.Manager.Content.Css
 {
