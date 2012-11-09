@@ -233,7 +233,7 @@ namespace Piranha.WebPages
 
 				// Ensure database
 				if (args[0] == "" && SysParam.GetByName("SITE_VERSION") == null)
-					context.Response.Redirect("~/manager") ;
+					context.Response.Redirect(url: "~/Manager") ;
 
 				// Check for culture prefix
 				if (Cultures.ContainsKey(args[0])) {
