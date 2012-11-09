@@ -1,9 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
-using System.Data;
-using System.Linq;
-using System.Text;
 using System.Web;
 
 using Piranha.Data;
@@ -18,7 +15,7 @@ namespace Piranha.Models
 	[PrimaryKey(Column="post_id,post_draft")]
 	[Join(TableName="posttemplate", ForeignKey="post_template_id", PrimaryKey="posttemplate_id")]
 	[Join(TableName="permalink", ForeignKey="post_permalink_id", PrimaryKey="permalink_id")]
-	public class Post : DraftRecord<Post>, IPost
+	public sealed class Post : DraftRecord<Post>, IPost
 	{
 		#region Fields
 		/// <summary>
@@ -28,10 +25,10 @@ namespace Piranha.Models
 		public override Guid Id { get ; set ; }
 
 		/// <summary>
-		/// Gets/sets weather this is a draft.
+		/// Gets/sets wether this is a draft.
 		/// </summary>
 		[Column(Name="post_draft")]
-		public override bool IsDraft { get ; set ; }
+		public override bool IsDraft { get ; set ; } // this should be sealed because it is called from contructor
 
 		/// <summary>
 		/// Gets/sets the template id.
@@ -227,9 +224,25 @@ namespace Piranha.Models
 				"SELECT category_id FROM category WHERE category_name = @1))", Relation.RelationType.POSTCATEGORY, name) ;
 		}
 
+        /// <summary>
+        /// Gets the posts for the given template ID
+        /// </summary>
+        /// <param name="id"></param>
+        /// <returns></returns>
 		public static List<Post> GetByTemplateId(Guid id) {
 			return Post.Get("post_draft = 0 AND post_template_id = @0", id) ;
 		}
+
+        /// <summary>
+        /// Gets the post for the given draft state
+        /// </summary>
+        /// <param name="draft">Weather to get the draft</param>
+        /// <returns>A list of posts</returns>
+        public static List<Post> GetByDraft(bool draft = false)
+        {
+            return Post.Get("post_draft = @0", draft, new Params() { OrderBy = "post_published DESC" });
+        }
+
 		#endregion
 
 		#region Handlers
@@ -238,11 +251,10 @@ namespace Piranha.Models
 		/// </summary>
 		/// <param name="lst">The attachments</param>
 		/// <returns>The attachments, or a default list</returns>
-		protected List<Guid> OnAttachmentsLoad(List<Guid> lst) {
-			if (lst != null)
-				return lst ;
-			return new List<Guid>() ;
+		private List<Guid> OnAttachmentsLoad(List<Guid> lst)
+		{
+		    return lst ?? new List<Guid>();
 		}
-		#endregion
+	    #endregion
 	}
 }
