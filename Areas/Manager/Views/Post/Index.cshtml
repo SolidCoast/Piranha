@@ -1,4 +1,4 @@
-﻿@model Models.Manager.PostModels.ListModel
+﻿@model Piranha.Models.Manager.PostModels.ListModel
 @section Head {
     <script type="text/javascript">
         $(document).ready(function () {
@@ -29,7 +29,7 @@
     <div class="inner">
         <ul>
             <li><a onclick="floatBox.show('boxTemplates')" class="add">@Piranha.Resources.Global.ToolbarAdd</a></li>
-            <li><a href="" class="refresh">@Piranha.Resources.Global.ToolbarReload</a></li>
+            <li><a class="refresh">@Piranha.Resources.Global.ToolbarReload</a></li>
         </ul>
         <button class="search" title="@Piranha.Resources.Global.ToolbarSearch"></button>@Html.TextBox("search")
         <div class="clear"></div>
