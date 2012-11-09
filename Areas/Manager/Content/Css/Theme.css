@@ -413,11 +413,10 @@ table.template td.locked {
     }
 .chzn-container-active .chzn-choices {
     border: none 0px;
-    box-shadow: none;
     -webkit-box-shadow: none;
     -moz-box-shadow: none;
-    -o-box-shadow; none;
-    }
+    box-shadow: none;
+}
 .chzn-container-multi .chzn-choices .search-field {
     border: none 0px;
     background: #fff;
@@ -432,11 +431,10 @@ table.template td.locked {
 .chzn-container .chzn-drop {
     border-width: 1px;
     border-style: solid;
-    box-shadow: none;
     -webkit-box-shadow: none;
     -moz-box-shadow: none;
-    -o-box-shadow; none;
-    }
+    box-shadow: none;
+}
 .chzn-container-multi .chzn-results {
     margin: 0;
     }
