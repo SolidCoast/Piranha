@@ -9,16 +9,17 @@
                 <p><i>Click to upload a new, or to choose an existing image or document.</i></p>
             </td>
         </tr>
-        @foreach (var c in Model.AttachedContent) {
-        <tr data-id="@c.Id">
-            <td><img src="@Url.Content("~/thumb/" + c.Id + "/50")" /></td>
-            <td>@c.DisplayName</td>
-            <td>@c.Type</td>
-            <td class="buttons three">
-                <a class="icon up marg"></a>
-                <a class="icon down marg"></a>
-                <a class="icon delete"></a></td>
-        </tr>
+        @foreach (dynamic c in Model.AttachedContent)
+        {
+            <tr data-id="@c.Id">
+                <td><img src="@Url.Content("~/thumb/" + c.Id + "/50")" /></td>
+                <td>@c.DisplayName</td>
+                <td>@c.Type</td>
+                <td class="buttons three">
+                    <a class="icon up marg"></a>
+                    <a class="icon down marg"></a>
+                    <a class="icon delete"></a></td>
+            </tr>
         }
     </tbody>
 </table>

@@ -1,78 +1,83 @@
-﻿<!DOCTYPE html>
+﻿@using Piranha.WebPages
+<!DOCTYPE html>
 <html>
-<head>
-    <meta http-equiv="content-type" content="text/html; charset=utf-8"/>
-    <title>@ViewBag.Title</title>
-    <link rel="icon" href="@Url.Content("~/content/img/icon.ico")" type="image/x-icon">
-    <link rel="shortcut icon" href="@Url.Content("~/content/img/icon.ico")" type="image/x-icon"> 
-    <link href="@Url.Content("~/Areas/Manager/Content/Css/Ext/chosen.min.css")" rel="stylesheet" type="text/css"/>
-    <link href="@Url.Content("~/Areas/Manager/Content/Css/Style.ashx")" rel="stylesheet" type="text/css"/>
-    <script type="text/javascript" src="@Url.Content("~/Areas/Manager/Content/Js/Ext/jquery-1.7.2.min.js")"></script>
-    <script type="text/javascript" src="@Url.Content("~/Areas/Manager/Content/Js/jquery.manager.js")"></script>
-    <script type="text/javascript" src="@Url.Content("~/Areas/Manager/Content/Js/Ext/chosen.jquery.min.js")"></script>
-    <script type="text/javascript">
-        var siteroot = "@Url.Content("~/")";
-        siteroot += !siteroot.endsWith("/") ? "/" : "" ;
+    <head>
+        <meta http-equiv="content-type" content="text/html; charset=utf-8"/>
+        <title>@ViewBag.Title</title>
+        <link rel="icon" href="@Url.Content("~/content/img/icon.ico")" type="image/x-icon">
+        <link rel="shortcut icon" href="@Url.Content("~/content/img/icon.ico")" type="image/x-icon"> 
+        <link href="@Url.Content("~/Areas/Manager/Content/Css/Ext/chosen.min.css")" rel="stylesheet" type="text/css"/>
+        <link href="@Url.Content("~/Areas/Manager/Content/Css/Style.ashx")" rel="stylesheet" type="text/css"/>
+        <script type="text/javascript" src="@Url.Content("~/Areas/Manager/Content/Js/Ext/jquery-1.7.2.min.js")"> </script>
+        <script type="text/javascript" src="@Url.Content("~/Areas/Manager/Content/Js/jquery.manager.js")"> </script>
+        <script type="text/javascript" src="@Url.Content("~/Areas/Manager/Content/Js/Ext/chosen.jquery.min.js")"> </script>
+        <script type="text/javascript">
+            var siteroot = "@Url.Content("~/")";
+            siteroot += !siteroot.endsWith("/") ? "/" : "";
 
-        $(document).ready(function () {
-            $(".message").click(function () { $(this).fadeOut("medium"); });
+            $(document).ready(function() {
+                $(".message").click(function() { $(this).fadeOut("medium"); });
 
-            $(".chzn-select").chosen().trigger("liszt:updated");
-        });
-    </script>
-    @if (!String.IsNullOrEmpty(ViewBag.Message)) {
-    <script type="text/javascript">
-        setTimeout(function () {
-            $(".sys-message").slideUp();
-        }, 2000);
-    </script>
-    }
-    @RenderSection("Head", false)
-</head>
-<body>
-    <div class="top">
-        <div class="container_12">
-            <div class="grid_12 header">
-                <a class="home" href="@Url.Action("index", "dashboard")"></a>
-                <a class="public-site" target="preview" href="http://@Request.Url.DnsSafeHost@Url.Content("~/")">
-                    @Piranha.WebPages.WebPiranha.GetSiteUrl()</a>
-                @Html.Partial("Partial/Menu")
-            </div>
-        </div>
-    </div>
-    <div class="title">
-        <div class="container_12">
-            <div class="grid_12"><h1>@ViewBag.Title</h1></div>
-        </div>
-    </div>
-    <div class="body">
-        <div class="container_12">
-            <div class="grid_12 toolbar-container">
-                @RenderSection("Toolbar", false)
-            </div>
-            @if (!String.IsNullOrEmpty(ViewBag.Message)) {
-            <div class="grid_12 sys-message">
-                <div class="box@(!String.IsNullOrEmpty(ViewBag.MessageCss) ? " " + ViewBag.MessageCss : "")">
-                    <div class="inner">
-                        <div class="ico"></div><p>@ViewBag.Message</p>
-                    </div>
+                $(".chzn-select").chosen().trigger("liszt:updated");
+            });
+        </script>
+        @if (!string.IsNullOrEmpty(ViewBag.Message))
+        {
+            <script type="text/javascript">
+                setTimeout(function() {
+                    $(".sys-message").slideUp();
+                }, 2000);
+            </script>
+        }
+
+
+        @RenderSection("Head", false)
+    </head>
+    <body>
+        <div class="top">
+            <div class="container_12">
+                <div class="grid_12 header">
+                    <a class="home" href="~/"></a>
+                    <a class="public-site" target="preview" href="@WebPiranha.GetSiteUrl()">
+                        @WebPiranha.GetSiteUrl()</a>
+                    @Html.Partial("Partial/Menu")
                 </div>
             </div>
-            }
-            <div class="content left">
-                @RenderBody()
+        </div>
+        <div class="title">
+            <div class="container_12">
+                <div class="grid_12"><h1>@ViewBag.Title</h1></div>
             </div>
         </div>
-    </div>
-    <div id="boxSysMsg" class="floatbox">
-        <div class="bg"></div>
-        <div class="box">
-            <div class="title"><h2 id="SysMsgTitle"></h2></div>
-            <div class="inner">
-                <p id="SysMsgBody"></p>
+        <div class="body">
+            <div class="container_12">
+                <div class="grid_12 toolbar-container">
+                    @RenderSection("Toolbar", false)
+                </div>
+                @if (!string.IsNullOrEmpty(ViewBag.Message))
+                {
+                    <div class="grid_12 sys-message">
+                        <div class="box@(!string.IsNullOrEmpty(ViewBag.MessageCss) ? " " + ViewBag.MessageCss : string.Empty) ">
+                            <div class="inner">
+                                <div class="ico"></div><p>@ViewBag.Message</p>
+                            </div>
+                        </div>
+                    </div>
+                }
+                <div class="content left">
+                    @RenderBody()
+                </div>
             </div>
         </div>
-    </div>
-    @RenderSection("Foot", false)
-</body>
+        <div id="boxSysMsg" class="floatbox">
+            <div class="bg"></div>
+            <div class="box">
+                <div class="title"><h2 id="SysMsgTitle"></h2></div>
+                <div class="inner">
+                    <p id="SysMsgBody"></p>
+                </div>
+            </div>
+        </div>
+        @RenderSection("Foot", false)
+    </body>
 </html>

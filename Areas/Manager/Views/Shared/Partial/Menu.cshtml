@@ -1,10 +1,13 @@
-﻿@using Piranha.WebPages;
+﻿@using Piranha.Resources
+@using Piranha.WebPages
 <ul class="menu">
-    @foreach (var group in Manager.Menu) {
-        if (group.HasAccess()) {
-            var items = group.ItemsForUser() ;
-            <li@(group.IsActive() ? " class=selected" : "")><a href="@Url.Action(items[0].Action, items[0].Controller)">@group.Name</a></li>
+    @foreach (Manager.MenuGroup group in Manager.Menu)
+    {
+        if (group.HasAccess())
+        {
+            IList<Manager.MenuItem> items = group.ItemsForUser();
+            <li@(group.IsActive() ? " class=selected" : string.Empty)><a href="@Url.Action(items[0].Action, items[0].Controller)">@group.Name</a></li>
         }
     }
-    <li><a href="@Url.Action("logout", "account")">@Piranha.Resources.Global.MenuLogout</a></li>
+    <li><a href="@Url.Action("logout", "account")">@Global.MenuLogout</a></li>
 </ul>

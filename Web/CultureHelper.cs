@@ -15,7 +15,7 @@ namespace Piranha.Web
 		/// Gets the name of the current UI culture.
 		/// </summary>
 		/// <returns>The current UI culture</returns>
-		public string CurrentUICulture {
+		public static string CurrentUiCulture {
 			get {
 				return CultureInfo.CurrentUICulture.Name ;
 			}
@@ -24,19 +24,10 @@ namespace Piranha.Web
 		/// <summary>
 		/// Gets the default ui culture as specified in the current web.config
 		/// </summary>
-		public string DefaultUICulture {
+		public static string DefaultUiCulture {
 			get {
-				GlobalizationSection gs = (GlobalizationSection)WebConfigurationManager.GetSection("system.web/globalization") ;
+				var gs = (GlobalizationSection)WebConfigurationManager.GetSection("system.web/globalization") ;
 				return gs.UICulture ;
-			}
-		}
-
-		/// <summary>
-		/// Gets weather the current ui culture is the default culture.
-		/// </summary>
-		public bool IsDefaultCulture {
-			get {
-				return CurrentUICulture == DefaultUICulture ;
 			}
 		}
 	}

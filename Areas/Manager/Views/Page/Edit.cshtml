@@ -1,19 +1,23 @@
-﻿@model Piranha.Models.Manager.PageModels.EditModel
-@using Piranha.Extend;
+﻿@using Piranha.Extend
+@using Piranha.Models.Manager.PageModels
+@using Piranha.Resources
+@using Piranha.Web
+@using Extension = Piranha.Models.Extension
+@model EditModel
 @section Head {
-    <script type="text/javascript" src="@Url.Content("~/Areas/Manager/Content/Js/jquery.form.js")"></script>
-    <script type="text/javascript" src="@Url.Content("~/Areas/Manager/Content/Js/jquery.regions.js")"></script>
-    <script type="text/javascript" src="@Url.Content("~/Areas/Manager/Content/Js/jquery.attachment.js")"></script>
-    <script type="text/javascript" src="@Url.Content("~/Areas/Manager/Content/Js/jquery.media.dialog.js")"></script>
-    <script type="text/javascript" src="@Url.Content("~/Areas/Manager/Content/Js/Ext/jquery.equalheights.js")"></script>
+    <script type="text/javascript" src="@Url.Content("~/Areas/Manager/Content/Js/jquery.form.js")"> </script>
+    <script type="text/javascript" src="@Url.Content("~/Areas/Manager/Content/Js/jquery.regions.js")"> </script>
+    <script type="text/javascript" src="@Url.Content("~/Areas/Manager/Content/Js/jquery.attachment.js")"> </script>
+    <script type="text/javascript" src="@Url.Content("~/Areas/Manager/Content/Js/jquery.media.dialog.js")"> </script>
+    <script type="text/javascript" src="@Url.Content("~/Areas/Manager/Content/Js/Ext/jquery.equalheights.js")"> </script>
     @Html.Partial("~/Areas/Manager/Views/Shared/Partial/TinyMCE.cshtml")
     <script type="text/javascript">
         var folderId = "";
 
-        $(document).ready(function () {
+        $(document).ready(function() {
             $("#Page_Title").focus();
 
-            $("#Page_ParentId").change(function () {
+            $("#Page_ParentId").change(function() {
                 var page_id = $("#Page_Id").val();
                 var page_parentid = $("#org_parentid").val();
                 var page_seqno = $("#Page_Seqno").val();
@@ -33,7 +37,7 @@
                 });
             });
 
-            $('#btnMove').click(function () {
+            $('#btnMove').click(function() {
                 $('#placement-edit').slideToggle('fast');
                 $(this).toggleClass('active');
                 return false;
@@ -45,6 +49,7 @@
         //
         // Hides all editors on the page. This callback is called from jquery.attachments.js
         //
+
         function hideEditors() {
             $("#pageregions .input, #globalregions .input").hide();
             $("#regionbuttons button").removeClass("active");
@@ -58,6 +63,7 @@
         //
         // This callback is called from jquery.attachments.js
         //
+
         function addAttachment(a) {
             // Store folder id so we can open the same folder next time.
             folderId = a.ParentId;
@@ -69,18 +75,19 @@
                     '<td>' + a.DisplayName + '</td>' +
                     '<td>' + a.Type + '</td>' +
                     '<td class="buttons three">' +
-                        '<a class="icon up marg"></a>' +
-                        '<a class="icon down marg"></a>' +
-                        '<a class="icon delete"></a></td>' +
-                '</tr>') ;
+                    '<a class="icon up marg"></a>' +
+                    '<a class="icon down marg"></a>' +
+                    '<a class="icon delete"></a></td>' +
+                    '</tr>');
         }
 
         //
         // This callback is called from jquery.attachments.js before form submit.
         //
+
         function addAttachmentData(index, val) {
             $("#attachment_data").append(
-                    '<input id="Page_Attachments_' + index +
+                '<input id="Page_Attachments_' + index +
                     '_" name="Page.Attachments[' + index +
                     ']" type="hidden" value="' + $(val).attr("data-id") + '" />');
         }
@@ -88,33 +95,37 @@
 }
 
 @section Toolbar {
-@Html.Partial("Partial/Tabs")
-<div class="toolbar">
-    <div class="inner">
-        <ul>
-            <li><a class="save submit">@Piranha.Resources.Global.ToolbarSave</a></li>
-            @if (!Model.Page.IsNew) {
-            <li><a href="http://@Request.Url.DnsSafeHost@Url.GetPermalink(Model.Page.Permalink, true)" target="preview" class="preview">@Piranha.Resources.Global.ToolbarPreview</a></li>
-            }
-            <li><a class="publish">@Piranha.Resources.Global.ToolbarPublish</a></li>
-            @if (Model.Page.Published > DateTime.MinValue) {
-            <li><a href="@Url.Action("unpublish", new { id = Model.Page.Id })" class="unpublish">@Piranha.Resources.Global.ToolbarUnpublish</a></li>
-            }
-            @if (Model.Page.Published > DateTime.MinValue && Model.Page.Updated > Model.Page.LastPublished) {
-            <li><a href="@Url.Action("revert", new { id = Model.Page.Id })" class="revert">@Piranha.Resources.Global.ToolbarRevert</a></li>
-            }
-            @if (!Model.Page.IsNew && Model.CanDelete) {
-            <li><a href="@Url.Action("delete", new { id = Model.Page.Id })" class="delete">@Piranha.Resources.Global.ToolbarDelete</a></li>
-            }
-            <li><a href="@Url.Action("index", new { id = Model.Page.Id })" class="back">@Piranha.Resources.Global.ToolbarBack</a></li>
-            <li><a href="@Url.Action("edit", new { id = Model.Page.Id })" class="refresh">@Piranha.Resources.Global.ToolbarReload</a></li>
-        </ul>
-        <div class="clear"></div>
+    @Html.Partial("Partial/Tabs")
+    <div class="toolbar">
+        <div class="inner">
+            <ul>
+                <li><a class="save submit">@Global.ToolbarSave</a></li>
+                @if (!Model.Page.IsNew)
+                {
+                    <li><a href="http://@Request.Url.DnsSafeHost@(Url.GetPermalink(Model.Page.Permalink, true))" target="preview" class="preview">@Global.ToolbarPreview</a></li>
+                }
+                <li><a class="publish">@Global.ToolbarPublish</a></li>
+                @if (Model.Page.Published > DateTime.MinValue)
+                {
+                    <li><a href="@Url.Action("unpublish", new { id = Model.Page.Id })" class="unpublish">@Global.ToolbarUnpublish</a></li>
+                }
+                @if (Model.Page.Published > DateTime.MinValue && Model.Page.Updated > Model.Page.LastPublished)
+                {
+                    <li><a href="@Url.Action("revert", new { id = Model.Page.Id })" class="revert">@Global.ToolbarRevert</a></li>
+                }
+                @if (!Model.Page.IsNew && Model.CanDelete)
+                {
+                    <li><a href="@Url.Action("delete", new { id = Model.Page.Id })" class="delete">@Global.ToolbarDelete</a></li>
+                }
+                <li><a href="@Url.Action("index", new { id = Model.Page.Id })" class="back">@Global.ToolbarBack</a></li>
+                <li><a href="@Url.Action("edit", new { id = Model.Page.Id })" class="refresh">@Global.ToolbarReload</a></li>
+            </ul>
+            <div class="clear"></div>
+        </div>
     </div>
-</div>
 }
 
-@{ Html.BeginForm("edit", (string)ViewContext.RouteData.Values["Controller"]) ; }
+@{ Html.BeginForm("edit", (string)ViewContext.RouteData.Values["Controller"]); }
 <div>
     @Html.HiddenFor(m => m.Page.IsNew)
     @Html.HiddenFor(m => m.Page.Id)
@@ -141,7 +152,7 @@
 <div class="first-row">
     <div class="grid_9">
         <div class="box">
-            <div class="title"><h2>@Piranha.Resources.Global.Information</h2></div>
+            <div class="title"><h2>@Global.Information</h2></div>
             <div class="inner">
                 <ul class="form">
                     <li>@Html.LabelFor(m => m.Page.Title)
@@ -151,14 +162,17 @@
                     </li>
                     <li>@Html.LabelFor(m => m.Page.NavigationTitle)
                         <div class="input">
-                            @Html.TextBoxFor(m => m.Page.NavigationTitle, new { @placeholder = Piranha.Resources.Global.Optional })</div>
+                            @Html.TextBoxFor(m => m.Page.NavigationTitle, new { @placeholder = Global.Optional })</div>
                         @Html.ValidationMessageFor(m => m.Page.NavigationTitle)
                     </li>
                     <li class="protected">@Html.LabelFor(m => m.Page.Permalink)
-                        @if (Model.Permalink != null && !String.IsNullOrEmpty(Model.Permalink.Name)) {
-                        <p>http://@Request.Url.DnsSafeHost@UI.Permalink(Model.Permalink.Name)</p>
-                        } else {
-                        <p><i>@Piranha.Resources.Page.PermalinkDescription</i></p>
+                        @if (Model.Permalink != null && !string.IsNullOrEmpty(Model.Permalink.Name))
+                        {
+                            //<p>http://@Request.Url.DnsSafeHost@(UI.Permalink(Model.Permalink.Name))</p>
+                        }
+                        else
+                        {
+                            <p><i>@Piranha.Resources.Page.PermalinkDescription</i></p>
                         }
                         <div class="input">
                             @Html.TextBoxFor(m => m.Permalink.Name)</div>
@@ -166,29 +180,34 @@
                         <a class="locked"></a>
                     </li>
                     <li>
-                        <label>@Piranha.Resources.Global.Placement</label>
+                        <label>@Global.Placement</label>
                         <button class="btn right" id="btnMove">Move</button>
-                        @if (!Model.Page.IsStartpage) {
-                        <p>@Piranha.Resources.Global.PlacementPage <strong>@(Model.Page.Seqno > 1 ? @Piranha.Resources.Global.PlacementAfter : @Piranha.Resources.Global.PlacementBelow)</strong> &quot;@Model.PlaceRef&quot;</p>
-                        } else {
-                        <p>@Piranha.Resources.Global.PlacementStart</p>
+                        @if (!Model.Page.IsStartpage)
+                        {
+                            <p>@Global.PlacementPage <strong>@(Model.Page.Seqno > 1 ? Global.PlacementAfter : Global.PlacementBelow)</strong> &quot;@Model.PlaceRef&quot;</p>
                         }
-                        <div id="placement-edit" style="display:none">
+                        else
+                        {
+                            <p>@Global.PlacementStart</p>
+                        }
+                        <div id="placement-edit" style="display: none">
                             @Html.LabelFor(m => m.Page.ParentId)
                             <div class="input">
                                 <select id="Page_ParentId" name="Page.ParentId">
-                                    @foreach (var p in Model.Parents) {
-                                    <option value="@p.Id"@(p.IsSelected ? " selected=selected" : "")>
-                                        @Html.Raw(p.Title)</option>
+                                    @foreach (EditModel.PagePlacement p in Model.Parents)
+                                    {
+                                        <option value="@p.Id"@(p.IsSelected ? " selected=selected" : string.Empty)>
+                                            @Html.Raw(p.Title)</option>
                                     }
                                 </select>
                             </div>
                             @Html.LabelFor(m => m.Page.Seqno)
                             <div class="input" id="div-seqno">
                                 <select id="Page_Seqno" name="Page.Seqno">
-                                @foreach (var s in Model.Siblings) {
-                                <option value="@s.Seqno"@(s.IsSelected ? " selected=selected" : "")>@s.Title</option>
-                                }
+                                    @foreach (EditModel.PagePlacement s in Model.Siblings)
+                                    {
+                                        <option value="@s.Seqno"@(s.IsSelected ? " selected=selected" : string.Empty)>@s.Title</option>
+                                    }
                                 </select>
                             </div>
                         </div>
@@ -215,18 +234,19 @@
                 <tr>
                     <td class="tools">
                         <ul>
-                            <li class="btn-content active"><a href="#" data-id="pnl-content">@Piranha.Resources.Global.Content</a></li>
-                            <li class="btn-settings"><a href="#" data-id="pnl-settings">@Piranha.Resources.Global.Settings</a></li>
-                            @if (Model.Properties.Count > 0) {
-                            <li class="btn-properties"><a href="#" data-id="pnl-properties">@Piranha.Resources.Global.Properties</a></li>
+                            <li class="btn-content active"><a href="#" data-id="pnl-content">@Global.Content</a></li>
+                            <li class="btn-settings"><a href="#" data-id="pnl-settings">@Global.Settings</a></li>
+                            @if (Model.Properties.Count > 0)
+                            {
+                                <li class="btn-properties"><a href="#" data-id="pnl-properties">@Global.Properties</a></li>
                             }
-                            @foreach (var ext in Model.Extensions) {
-                            <li>
-                                <a href="#"@(ExtensionManager.GetIconPathByType(ext.Type) != "" ? "style=background-image:url('" + 
-                                Url.Content(ExtensionManager.GetIconPathByType(ext.Type)) + "')" : "") data-id="pnl-@ExtensionManager.GetInternalIdByType(ext.Type).ToLower()">
-                                    @ExtensionManager.GetExtensionNameByType(ext.Type)
-                                </a>
-                            </li>
+                            @foreach (Extension ext in Model.Extensions)
+                            {
+                                <li>
+                                    <a href="#"@(ExtensionManager.GetIconPathByType(ext.Type) != string.Empty ? "style=background-image:url('" + Url.Content(ExtensionManager.GetIconPathByType(ext.Type)) + "')" : string.Empty) data-id="pnl-@ExtensionManager.GetInternalIdByType(ext.Type).ToLower()">
+                                        @ExtensionManager.GetExtensionNameByType(ext.Type)
+                                    </a>
+                                </li>
                             }
                         </ul>
                     </td>
@@ -234,26 +254,28 @@
                         <div id="pnl-content" class="main content-editor">
                             <div class="title">
                                 <div id="regionbuttons" class="buttons">
-                                    @for (int n = 0; n < Model.Regions.Count; n++) {
-                                        <button id="@Html.Raw("btn_" + Model.Regions[n].InternalId)" class="btn@(n > 0 ? "" : " active") region">@Model.Regions[n].Name</button>
+                                    @for (int n = 0; n < Model.Regions.Count; n++)
+                                    {
+                                        <button id="@Html.Raw("btn_" + Model.Regions[n].InternalId)" class="btn@(n > 0 ? string.Empty : " active") region">@Model.Regions[n].Name</button>
                                     }
-                                    <button id="btn_attachments" class="btn@(Model.Regions.Count == 0 ? " active" : "")">@Piranha.Resources.Page.Attachments</button>
+                                    <button id="btn_attachments" class="btn@(Model.Regions.Count == 0 ? " active" : string.Empty)">@Piranha.Resources.Page.Attachments</button>
                                 </div>
-                                <h2 id="section-title">@Piranha.Resources.Global.Content</h2>
+                                <h2 id="section-title">@Global.Content</h2>
                             </div>
                             <div class="inner">
-                                @if (Model.Regions.Count > 0) {
-                                <div id="regions">
-                                    @Html.EditorFor(m => m.Regions)
-                                </div>
+                                @if (Model.Regions.Count > 0)
+                                {
+                                    <div id="regions">
+                                        @Html.EditorFor(m => m.Regions)
+                                    </div>
                                 }
-                                <div id="attachments" @(Model.Regions.Count > 0 ? "style=display:none" : "")>
+                                <div id="attachments" @(Model.Regions.Count > 0 ? "style=display:none" : string.Empty)>
                                     @Html.Partial("Partial/Attachments")
                                 </div>
                             </div>
                         </div>
                         <div id="pnl-settings" class="main hidden">
-                            <div class="title"><h2>@Piranha.Resources.Global.Settings</h2></div>
+                            <div class="title"><h2>@Global.Settings</h2></div>
                             <div class="inner">
                                 <ul class="form">
                                     <li>
@@ -262,9 +284,10 @@
                                             @Html.DropDownListFor(m => m.Page.GroupId, Model.Groups)</div>
                                         @Html.LabelFor(m => m.Page.DisabledGroups)
                                         <div id="disable-groups" class="block">
-                                            @{ var dGroups = Model.Groups.Where(g => g.Value != Guid.Empty.ToString()).ToList() ; }
-                                            @Html.Partial("Partial/GroupList", new Piranha.Models.Manager.PageModels.GroupListModel() { 
-                                                Groups = Model.DisableGroups, Page = Model.Page })
+                                            @{ List<SelectListItem> dGroups = Model.Groups.Where(g => g.Value != Guid.Empty.ToString()).ToList(); }
+
+
+                                            @Html.Partial("Partial/GroupList", new GroupListModel { Groups = Model.DisableGroups, Page = Model.Page })
                                         </div>
                                     </li>
                                     <li>
@@ -273,53 +296,59 @@
                                     </li>
                                     <li>@Html.LabelFor(m => m.Page.Keywords)
                                         <div class="input"> 
-                                            @Html.TextBoxFor(m => m.Page.Keywords, new { @placeholder = Piranha.Resources.Global.Optional })</div>
+                                            @Html.TextBoxFor(m => m.Page.Keywords, new { @placeholder = Global.Optional })</div>
                                         @Html.ValidationMessageFor(m => m.Page.Keywords)
                                     </li>
                                     <li>@Html.LabelFor(m => m.Page.Description)
                                         <div class="input">
-                                            @Html.TextAreaFor(m => m.Page.Description, new { @rows = 3, @placeholder = Piranha.Resources.Global.Optional })</div>
+                                            @Html.TextAreaFor(m => m.Page.Description, new { @rows = 3, @placeholder = Global.Optional })</div>
                                         @Html.ValidationMessageFor(m => m.Page.Description)
                                     </li>
-                                    @if (Model.Template.ShowController) {
-                                    <li>@Html.LabelFor(m => m.Page.PageController)
-                                        <div class="input">
-                                            @Html.TextBoxFor(m => m.Page.PageController, new { @placeholder = !String.IsNullOrEmpty(Model.Template.Controller) ? Model.Template.Controller : Piranha.Resources.Global.Optional })</div>
-                                        @Html.ValidationMessageFor(m => m.Page.PageController)
-                                    </li>
+                                    @if (Model.Template.ShowController)
+                                    {
+                                        <li>@Html.LabelFor(m => m.Page.PageController)
+                                            <div class="input">
+                                                @Html.TextBoxFor(m => m.Page.PageController, new { @placeholder = !string.IsNullOrEmpty(Model.Template.Controller) ? Model.Template.Controller : Global.Optional }) </div>
+                                            @Html.ValidationMessageFor(m => m.Page.PageController)
+                                        </li>
                                     }
-                                    @if (Model.Template.ShowRedirect) {
-                                    <li>@Html.LabelFor(m => m.Page.PageRedirect)
-                                        <div class="input">
-                                            @Html.TextBoxFor(m => m.Page.PageRedirect, new { @placeholder = !String.IsNullOrEmpty(Model.Template.Redirect) ? Model.Template.Redirect : Piranha.Resources.Global.Optional })</div>
-                                        @Html.ValidationMessageFor(m => m.Page.PageRedirect)
-                                    </li>
+                                    @if (Model.Template.ShowRedirect)
+                                    {
+                                        <li>@Html.LabelFor(m => m.Page.PageRedirect)
+                                            <div class="input">
+                                                @Html.TextBoxFor(m => m.Page.PageRedirect, new { @placeholder = !string.IsNullOrEmpty(Model.Template.Redirect) ? Model.Template.Redirect : Global.Optional }) </div>
+                                            @Html.ValidationMessageFor(m => m.Page.PageRedirect)
+                                        </li>
                                     }
                                 </ul>
                             </div>
                         </div>
-                        @if (Model.Properties.Count > 0) {
-                        <div id="pnl-properties" class="main hidden">
-                            <div class="title"><h2>@Piranha.Resources.Global.Properties</h2></div>
-                            <div class="inner">
-                                <ul class="form">
-                                @for (int n = 0; n < Model.Properties.Count; n++) {
-                                    <li>@Html.LabelFor(m => m.Properties[n], Model.Properties[n].Name)
-                                        @Html.HiddenFor(m => m.Properties[n].Id)
-                                        @Html.HiddenFor(m => m.Properties[n].IsDraft)
-                                        @Html.HiddenFor(m => m.Properties[n].ParentId)
-                                        @Html.HiddenFor(m => m.Properties[n].Name)
-                                        @Html.HiddenFor(m => m.Properties[n].Created)
-                                        @Html.HiddenFor(m => m.Properties[n].CreatedBy)
-                                        @Html.HiddenFor(m => m.Properties[n].IsNew)
-                                        <div class="input">
-                                            @Html.TextBoxFor(m => m.Properties[n].Value)</div>
-                                    </li>
-                                }
-                                </ul>
+                        @if (Model.Properties.Count > 0)
+                        {
+                            <div id="pnl-properties" class="main hidden">
+                                <div class="title"><h2>@Global.Properties</h2></div>
+                                <div class="inner">
+                                    <ul class="form">
+                                        @for (int n = 0; n < Model.Properties.Count; n++)
+                                        {
+                                            <li>@Html.LabelFor(m => m.Properties[n], Model.Properties[n].Name)
+                                                @Html.HiddenFor(m => m.Properties[n].Id)
+                                                @Html.HiddenFor(m => m.Properties[n].IsDraft)
+                                                @Html.HiddenFor(m => m.Properties[n].ParentId)
+                                                @Html.HiddenFor(m => m.Properties[n].Name)
+                                                @Html.HiddenFor(m => m.Properties[n].Created)
+                                                @Html.HiddenFor(m => m.Properties[n].CreatedBy)
+                                                @Html.HiddenFor(m => m.Properties[n].IsNew)
+                                                <div class="input">
+                                                    @Html.TextBoxFor(m => m.Properties[n].Value)</div>
+                                            </li>
+                                        }
+                                    </ul>
+                                </div>
                             </div>
-                        </div>
                         }
+
+
                         @Html.EditorFor(m => m.Extensions)
                     </td>
                 </tr>
@@ -328,37 +357,40 @@
     </div>
 </div>
 <div class="grid_3 hidden">
-    @if (!Model.Page.IsNew) {
-    <div class="box expandable">
-        <div class="title"><h2>@Piranha.Resources.Global.Versioning</h2></div>
-        <div class="inner optional">
-            <ul class="list">
-                <li>@Piranha.Resources.Global.LastPublished <small class="right">
-                    @(Model.Page.LastPublished > DateTime.MinValue ? Model.Page.LastPublished.ToShortDateString() : "")</small></li>
-                <li>@Piranha.Resources.Global.Published <small class="right">
-                    @(Model.Page.Published > DateTime.MinValue ? Model.Page.Published.ToShortDateString() : "")</small></li>
-                <li>@Piranha.Resources.Global.Updated <small class="right">@Model.Page.Updated.ToShortDateString()</small></li>
-                <li>@Piranha.Resources.Global.Created <small class="right">@Model.Page.Created.ToShortDateString()</small></li>
-            </ul>
+    @if (!Model.Page.IsNew)
+    {
+        <div class="box expandable">
+            <div class="title"><h2>@Global.Versioning</h2></div>
+            <div class="inner optional">
+                <ul class="list">
+                    <li>@Global.LastPublished <small class="right">
+                                                  @(Model.Page.LastPublished > DateTime.MinValue ? Model.Page.LastPublished.ToShortDateString() : string.Empty)</small></li>
+                    <li>@Global.Published <small class="right">
+                                              @(Model.Page.Published > DateTime.MinValue ? Model.Page.Published.ToShortDateString() : string.Empty)</small></li>
+                    <li>@Global.Updated <small class="right">@Model.Page.Updated.ToShortDateString()</small></li>
+                    <li>@Global.Created <small class="right">@Model.Page.Created.ToShortDateString()</small></li>
+                </ul>
+            </div>
         </div>
-    </div>
     }
 </div>
-@{ Html.EndForm() ; }
+@{ Html.EndForm(); }
 @section Foot {
- <div id="boxContent" class="floatbox">
-    <div class="bg"></div>
-    <div class="box" style="min-width: 510px;min-height:260px;">
+    <div id="boxContent" class="floatbox">
+        <div class="bg"></div>
+        <div class="box" style="min-height: 260px; min-width: 510px;">
+        </div>
     </div>
-</div>
-   @if (false) { // (!Model.Page.IsNew) {
-    <script type="text/javascript">
-        $(document).ready(function () {
-            $(".toolbar .page-preview").attr("src", "http://@Request.Url.DnsSafeHost@Url.GetPreviewlink(Model.Page.Id).ToLower()");
-            $.each($(".toolbar .tooltip"), function (i, e) {
-                $(this).css({ left: -(($(this).outerWidth() - $(this).parent("li").width()) / 2) });
+    @if (false)
+    {
+        // (!Model.Page.IsNew) {
+        <script type="text/javascript">
+            $(document).ready(function() {
+                $(".toolbar .page-preview").attr("src", "http://@Request.Url.DnsSafeHost@(Url.GetPreviewlink(Model.Page.Id).ToLower())");
+                $.each($(".toolbar .tooltip"), function(i, e) {
+                    $(this).css({ left: -(($(this).outerWidth() - $(this).parent("li").width()) / 2) });
+                });
             });
-        });
-    </script>
+        </script>
     }
 }

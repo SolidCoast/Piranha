@@ -1,22 +1,24 @@
-﻿@model Piranha.Models.Manager.ContentModels.ListModel
+﻿@using Piranha.Resources
+@model Models.Manager.ContentModels.ListModel
 @{
-    ViewBag.Title = @Piranha.Resources.Content.ListTitle ;
+    ViewBag.Title = Content.ListTitle;
+
 }
 @section Head {
     <script type="text/javascript">
         function formatSitemap() {
-            $.each($(".sitemap li:visible"), function (i, e) {
+            $.each($(".sitemap li:visible"), function(i, e) {
                 if (i % 2 == 1)
                     $(this).addClass("odd");
                 else $(this).removeClass("odd");
             });
         }
 
-        $(document).ready(function () {
+        $(document).ready(function() {
             formatSitemap();
 
             // Handle the site tree
-            $(".sitemap .action").click(function () {
+            $(".sitemap .action").click(function() {
                 var li = $(this).parent().parent();
                 li.toggleClass("collapsed");
                 li.toggleClass("expanded");
@@ -26,26 +28,26 @@
     </script>
 }
 @section Toolbar { 
-@Html.Partial("Partial/Tabs")
-<div class="toolbar">
-    <div class="inner">
-        <ul>
-            <li><a href="@Url.Action("insert")" class="add">@Piranha.Resources.Global.ToolbarAdd</a></li>
-            <li><a href="@Url.Action("insertfolder")" class="addfolder">@Piranha.Resources.Content.ToolbarAddFolder</a></li>
-            <li><a href="@Url.Action("index")" class="refresh">@Piranha.Resources.Global.ToolbarReload</a></li>
-        </ul>
-        <button class="search" title="@Piranha.Resources.Global.ToolbarSearch"></button>@Html.TextBox("search")
-        <div class="clear"></div>
+    @Html.Partial("Partial/Tabs")
+    <div class="toolbar">
+        <div class="inner">
+            <ul>
+                <li><a href="@Url.Action("insert")" class="add">@Global.ToolbarAdd</a></li>
+                <li><a href="@Url.Action("insertfolder")" class="addfolder">@Content.ToolbarAddFolder</a></li>
+                <li><a href="@Url.Action("index")" class="refresh">@Global.ToolbarReload</a></li>
+            </ul>
+            <button class="search" title="@Global.ToolbarSearch"></button>@Html.TextBox("search")
+            <div class="clear"></div>
+        </div>
     </div>
-</div>
 }
 <div class="grid_12">
     <ul class="sitemap media">
         <li class="header">
             <span class="buttons"></span>
-            <span class="date">@Piranha.Resources.Global.Created</span>
-            <span class="date">@Piranha.Resources.Global.Updated</span>
-            <span class="title">@Piranha.Resources.Content.Filename</span>
+            <span class="date">@Global.Created</span>
+            <span class="date">@Global.Updated</span>
+            <span class="title">@Content.Filename</span>
         </li>
         @Html.Partial("Partial/ContentTree", Model.Content)
     </ul>

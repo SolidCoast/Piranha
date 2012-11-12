@@ -1,10 +1,11 @@
-﻿@model Piranha.Models.Region
+﻿@model Models.Region
 @{
-    var folder = Model.Type.LastIndexOf('.') > -1 ? Model.Type.Substring(0, Model.Type.LastIndexOf('.')) : "" ;
-    folder = folder != "" ? folder + "/" : "" ;
-    var view = Model.Type.Substring(folder.Length) ;
+    string folder = Model.Type.LastIndexOf('.') > -1 ? Model.Type.Substring(0, Model.Type.LastIndexOf('.')) : string.Empty;
+    folder = folder != string.Empty ? folder + "/" : string.Empty;
+    string view = Model.Type.Substring(folder.Length);
+
 }
-<div id="@Model.InternalId" class="region-body" style="display:none">
+<div id="@Model.InternalId" class="region-body" style="display: none">
     @Html.HiddenFor(m => m.IsNew)
     @Html.HiddenFor(m => m.Id)
     @Html.HiddenFor(m => m.IsDraft)

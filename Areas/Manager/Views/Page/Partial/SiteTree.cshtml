@@ -1,22 +1,29 @@
-﻿@model List<Piranha.Models.Sitemap>
-@foreach (var page in Model) {
-    <li id="@page.Id" class="@(page.Pages.Count > 0 ? (page.Level <= ViewBag.Levels || page.HasChild(ViewBag.Expanded) ? "expanded" : "collapsed") : "") @(page.Updated > page.LastPublished ? "draft" : "")">
+﻿@using Piranha.Models
+@model List<Sitemap>
+@foreach (Sitemap page in Model)
+{
+    <li id="@page.Id" class="@(page.Pages.Count > 0 ? (page.Level <= ViewBag.Levels || page.HasChild(ViewBag.Expanded) ? "expanded" : "collapsed") : string.Empty) @(page.Updated > page.LastPublished ? "draft" : string.Empty)">
         <span class="buttons">
-            <button class="icon add-after marg" title="@Piranha.Resources.Page.ListAddAfter" onclick="return preSubmit('@page.ParentId', @(page.Seqno + 1))" type="submit"></button>
-            <button class="icon add-below marg" title="@Piranha.Resources.Page.ListAddBelow" onclick="return preSubmit('@page.Id', 1)" type="submit"></button>
-            @if (page.Pages.Count == 0) {
-            <a href="@Url.Action("delete", "page", new { id = page.Id })" title="@Piranha.Resources.Page.ListDelete" class="icon delete"></a>
+            <button class="icon add-after marg" title="@Piranha.Resources.Page.ListAddAfter" onclick=" return preSubmit('@page.ParentId', @(page.Seqno + 1)) " type="submit"></button>
+            <button class="icon add-below marg" title="@Piranha.Resources.Page.ListAddBelow" onclick=" return preSubmit('@page.Id', 1) " type="submit"></button>
+            @if (page.Pages.Count == 0)
+            {
+                <a href="@Url.Action("delete", "page", new { id = page.Id })" title="@Piranha.Resources.Page.ListDelete" class="icon delete"></a>
             }
         </span>
         <span class="date">@page.Created.ToString("yyyy-MM-dd")</span>
         <span class="date">@page.Updated.ToString("yyyy-MM-dd")</span>
         <span class="type">@page.TemplateName</span>
-        <span class="title">@if (page.Pages.Count > 0) {<span class="action"></span>}<a href="@Url.Action("edit", "page", new { id = page.Id })">
-            @Html.Raw((!String.IsNullOrEmpty(page.NavigationTitle) ? page.NavigationTitle : page.Title) + (page.LastPublished == DateTime.MinValue ? "<span class=info-unpublished></span>" : (page.Updated > page.LastPublished ? "<span class=info-draft></span>" : "")))</a></span>
-        @if (page.Pages.Count > 0) {
-        <ul>
-            @Html.Partial("Partial/SiteTree", page.Pages)
-        </ul>
+        <span class="title">@if (page.Pages.Count > 0)
+                            {
+                                <span class="action"></span>
+                            }<a href="@Url.Action("edit", "page", new { id = page.Id })">
+                                 @Html.Raw((!string.IsNullOrEmpty(page.NavigationTitle) ? page.NavigationTitle : page.Title) + (page.LastPublished == DateTime.MinValue ? "<span class=info-unpublished></span>" : (page.Updated > page.LastPublished ? "<span class=info-draft></span>" : string.Empty))) </a></span>
+        @if (page.Pages.Count > 0)
+        {
+            <ul>
+                @Html.Partial("Partial/SiteTree", page.Pages)
+            </ul>
         }
     </li>
 }

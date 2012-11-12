@@ -1,57 +1,61 @@
-﻿@{
-    ViewBag.Title = @Piranha.Resources.Account.Title ;
-    Layout = "" ;
+﻿@using Piranha.Resources
+@{
+    ViewBag.Title = Account.Title;
+    Layout = string.Empty;
+
 }
 <!DOCTYPE html>
 <html>
-<head>
-    <meta http-equiv="content-type" content="text/html; charset=utf-8"/>
-    <title>@ViewBag.Title</title>
-    <link rel="icon" href="@Url.Content("~/content/img/icon.ico")" type="image/x-icon">
-    <link rel="shortcut icon" href="@Url.Content("~/content/img/icon.ico")" type="image/x-icon"> 
-    <link href="@Url.Content("~/Areas/Manager/Content/Css/Style.ashx")" rel="stylesheet" type="text/css"/>
-    <script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.6.4/jquery.min.js"></script>
-    <script type="text/javascript" src="@Url.Content("~/Areas/Manager/Content/Js/jquery.manager.js")"></script>
-    <script type="text/javascript">
-        $(document).ready(function () {
-            $(".message").click(function () { $(this).fadeOut("medium"); });
+    <head>
+        <meta http-equiv="content-type" content="text/html; charset=utf-8"/>
+        <title>@ViewBag.Title</title>
+        <link rel="icon" href="@Url.Content("~/content/img/icon.ico")" type="image/x-icon">
+        <link rel="shortcut icon" href="@Url.Content("~/content/img/icon.ico")" type="image/x-icon"> 
+        <link href="@Url.Content("~/Areas/Manager/Content/Css/Style.ashx")" rel="stylesheet" type="text/css"/>
+        <script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.6.4/jquery.min.js"> </script>
+        <script type="text/javascript" src="@Url.Content("~/Areas/Manager/Content/Js/jquery.manager.js")"> </script>
+        <script type="text/javascript">
+            $(document).ready(function() {
+                $(".message").click(function() { $(this).fadeOut("medium"); });
 
-            if ($("#sysMsg").text() != "") {
-                floatBox.show("boxMessage");
-            }
+                if ($("#sysMsg").text() != "") {
+                    floatBox.show("boxMessage");
+                }
 
-            $("#login").focus();
-        });
-    </script>
-</head>
-<body>
-    <div class="container_12">
-        <div class="grid_4 box login">
-            <div class="title"><small>@("v" + ViewBag.Version)</small><h2>@Piranha.Resources.Account.Title</h2></div>
-            <div class="inner">
-                @{ Html.BeginForm("login", "account") ; }
-                @Html.Hidden("returnaction", "index")
-                @Html.Hidden("returncontroller", "page")
-                <ul class="form">
-                    <li><label>@Piranha.Resources.Account.Username</label>
-                        <div class="input"><input id="login" name="login" type="text" /></div></li>
-                    <li><label>@Piranha.Resources.Account.Password</label>
-                        <div class="input"><input name="password" type="password" /></div></li>
-                </ul>
-                <button type="submit" class="btn right">@Piranha.Resources.Account.Login</button>
-                @{ Html.EndForm() ; }
-                <div class="clear"></div>
+                $("#login").focus();
+            });
+        </script>
+    </head>
+    <body>
+        <div class="container_12">
+            <div class="grid_4 box login">
+                <div class="title"><small>@("v" + ViewBag.Version)</small><h2>@Account.Title</h2></div>
+                <div class="inner">
+                    @{ Html.BeginForm("login", "account"); }
+
+
+                    @Html.Hidden("returnaction", "index")
+                    @Html.Hidden("returncontroller", "page")
+                    <ul class="form">
+                        <li><label>@Account.Username</label>
+                            <div class="input"><input id="login" name="login" type="text" /></div></li>
+                        <li><label>@Account.Password</label>
+                            <div class="input"><input name="password" type="password" /></div></li>
+                    </ul>
+                    <button type="submit" class="btn right">@Account.Login</button>
+                    @{ Html.EndForm(); }
+                    <div class="clear"></div>
+                </div>
             </div>
         </div>
-    </div>
-    <div id="boxMessage" class="floatbox">
-        <div class="bg"></div>
-        <div class="box">
-            <div class="title"><h2>@Piranha.Resources.Global.PopupMessageTitle</h2></div>
-            <div class="inner" style="width: 360px;min-height:60px;text-align:center">
-                <p id="sysMsg">@ViewBag.Message</p>
+        <div id="boxMessage" class="floatbox">
+            <div class="bg"></div>
+            <div class="box">
+                <div class="title"><h2>@Global.PopupMessageTitle</h2></div>
+                <div class="inner" style="min-height: 60px; text-align: center; width: 360px;">
+                    <p id="sysMsg">@ViewBag.Message</p>
+                </div>
             </div>
         </div>
-    </div>
-</body>
+    </body>
 </html>

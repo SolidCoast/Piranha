@@ -1,18 +1,23 @@
-﻿@using Piranha.WebPages;
+﻿@using Piranha.WebPages
 @{
-    IList<Manager.MenuItem> items = null ;
-    
-    foreach (var group in Manager.Menu) {
-        if (group.IsActive()) {
-            items = group.ItemsForUser() ;
+    IList<Manager.MenuItem> items = null;
+
+    foreach (Manager.MenuGroup group in Manager.Menu)
+    {
+        if (group.IsActive())
+        {
+            items = group.ItemsForUser();
         }
     }
+
 }
-@if (items != null) {
-<ul class="tabs">
-    @foreach (var item in items) {
-    <li><a@(item.IsActive() ? " class=selected" : "") href="@Url.Action(item.Action, item.Controller)">@item.Name</a></li>
-    }
-</ul>
-<div class="clear"></div>
+@if (items != null)
+{
+    <ul class="tabs">
+        @foreach (Manager.MenuItem item in items)
+        {
+            <li><a@(item.IsActive() ? " class=selected" : string.Empty) href="@Url.Action(item.Action, item.Controller)">@item.Name</a></li>
+        }
+    </ul>
+    <div class="clear"></div>
 }

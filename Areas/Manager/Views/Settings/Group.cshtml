@@ -1,25 +1,29 @@
-﻿@model Piranha.Models.Manager.SettingModels.GroupEditModel
+﻿@using Piranha.Models
+@using Piranha.Resources
+@model Models.Manager.SettingModels.GroupEditModel
 @section Toolbar {
-@Html.Partial("Partial/Tabs")
-<div class="toolbar">
-    <div class="inner">
-        <ul>
-            <li><a class="save submit">@Piranha.Resources.Global.ToolbarSave</a></li>
-            <li><a href="@Url.Action("deletegroup", new { id = Model.Group.Id })" class="delete">@Piranha.Resources.Global.ToolbarDelete</a></li>
-            <li><a href="@Url.Action("grouplist")" class="back">@Piranha.Resources.Global.ToolbarBack</a></li>
-            <li><a href="@Url.Action("group", new { id = Model.Group.Id })" class="refresh">@Piranha.Resources.Global.ToolbarReload</a></li>
-        </ul>
-        <div class="clear"></div>
+    @Html.Partial("Partial/Tabs")
+    <div class="toolbar">
+        <div class="inner">
+            <ul>
+                <li><a class="save submit">@Global.ToolbarSave</a></li>
+                <li><a href="@Url.Action("deletegroup", new { id = Model.Group.Id })" class="delete">@Global.ToolbarDelete</a></li>
+                <li><a href="@Url.Action("grouplist")" class="back">@Global.ToolbarBack</a></li>
+                <li><a href="@Url.Action("group", new { id = Model.Group.Id })" class="refresh">@Global.ToolbarReload</a></li>
+            </ul>
+            <div class="clear"></div>
+        </div>
     </div>
-</div>
 }
-@{ Html.BeginForm() ; }
+@{ Html.BeginForm(); }
+
+
 @Html.HiddenFor(m => m.Group.Id)
 @Html.HiddenFor(m => m.Group.IsNew)
 @Html.HiddenFor(m => m.Group.Created)
 <div class="grid_9">
     <div class="box">
-        <div class="title"><h2>@Piranha.Resources.Global.Information</h2></div>
+        <div class="title"><h2>@Global.Information</h2></div>
         <div class="inner">
             <ul class="form">
                 <li>
@@ -31,8 +35,7 @@
                 <li>
                     @Html.LabelFor(m => m.Group.Description)
                     <div class="input">
-                        @Html.TextAreaFor(m => m.Group.Description, 
-                            new { @rows = 3, @placeholder = Piranha.Resources.Global.Optional })</div>
+                        @Html.TextAreaFor(m => m.Group.Description, new { @rows = 3, @placeholder = Global.Optional })</div>
                 </li>
                 <li>
                     @Html.LabelFor(m => m.Group.ParentId)
@@ -45,18 +48,22 @@
 </div>
 <div class="grid_3">
     <div class="box">
-        <div class="title"><h2>@Piranha.Resources.Settings.GroupMembers</h2></div>
+        <div class="title"><h2>@Settings.GroupMembers</h2></div>
         <div class="inner">
-            @if (!Model.Group.IsNew) {
-            <ul class="list">
-                @foreach (var user in Model.Members) {
-                <li><a href="@Url.Action("user", new { id = user.Id })">@(!String.IsNullOrEmpty(user.Name) ? user.Name : user.Login)</a></li>
-                }
-            </ul>
-            } else {
-                <p><em>@Piranha.Resources.Settings.GroupMembersNew</em></p>
+            @if (!Model.Group.IsNew)
+            {
+                <ul class="list">
+                    @foreach (SysUser user in Model.Members)
+                    {
+                        <li><a href="@Url.Action("user", new { id = user.Id })">@(!string.IsNullOrEmpty(user.Name) ? user.Name : user.Login)</a></li>
+                    }
+                </ul>
+            }
+            else
+            {
+                <p><em>@Settings.GroupMembersNew</em></p>
             }
         </div>
     </div>
 </div>
-@{ Html.EndForm() ; }
+@{ Html.EndForm(); }

@@ -1,26 +1,28 @@
-﻿@model Piranha.Models.Manager.TemplateModels.PostEditModel
+﻿@using Piranha.Resources
+@model Models.Manager.TemplateModels.PostEditModel
 @{
-    ViewBag.Selected = "Settings" ;
-    ViewBag.SelectedTab = "PostType" ;
+    ViewBag.Selected = "Settings";
+    ViewBag.SelectedTab = "PostType";
+
 }
 @section Head {
-    <script type="text/javascript" src="@Url.Content("~/Areas/Manager/Content/Js/jquery.template.js")"></script>
+    <script type="text/javascript" src="@Url.Content("~/Areas/Manager/Content/Js/jquery.template.js")"> </script>
 }
 @section Toolbar {
-@Html.Partial("Partial/Tabs")
-<div class="toolbar">
-    <div class="inner">
-        <ul>
-            <li><a class="save submit">@Piranha.Resources.Global.ToolbarSave</a></li>
-            <li><a href="@Url.Action("deletepost", new { id = Model.Template.Id })" class="delete">@Piranha.Resources.Global.ToolbarDelete</a></li>
-            <li><a href="@Url.Action("postlist")" class="back">@Piranha.Resources.Global.ToolbarBack</a></li>
-            <li><a href="@Url.Action("post", new { id = Model.Template.Id })" class="refresh">@Piranha.Resources.Global.ToolbarReload</a></li>
-        </ul>
-        <div class="clear"></div>
+    @Html.Partial("Partial/Tabs")
+    <div class="toolbar">
+        <div class="inner">
+            <ul>
+                <li><a class="save submit">@Global.ToolbarSave</a></li>
+                <li><a href="@Url.Action("deletepost", new { id = Model.Template.Id })" class="delete">@Global.ToolbarDelete</a></li>
+                <li><a href="@Url.Action("postlist")" class="back">@Global.ToolbarBack</a></li>
+                <li><a href="@Url.Action("post", new { id = Model.Template.Id })" class="refresh">@Global.ToolbarReload</a></li>
+            </ul>
+            <div class="clear"></div>
+        </div>
     </div>
-</div>
 }
-@{ Html.BeginForm("post", "template") ; }
+@{ Html.BeginForm("post", "template"); }
 <div>
     @Html.HiddenFor(m => m.Template.Id)
     @Html.HiddenFor(m => m.Template.IsNew)
@@ -31,7 +33,7 @@
 </div>
 <div class="grid_9">
     <div class="box expandable">
-        <div class="title"><h2>@Piranha.Resources.Global.Information</h2></div>
+        <div class="title"><h2>@Global.Information</h2></div>
         <div class="inner">
             <ul class="form">
                 <li>
@@ -43,69 +45,68 @@
                 <li>
                     @Html.LabelFor(m => m.Template.Description)
                     <div class="input">
-                        @Html.TextAreaFor(m => m.Template.Description, 
-                            new { @placeholder = Piranha.Resources.Global.Optional })</div>
+                        @Html.TextAreaFor(m => m.Template.Description, new { @placeholder = Global.Optional })</div>
                 </li>
             </ul>
             <ul class="form optional">               
                 <li>@Html.LabelFor(m => m.Template.Preview)
                     <div class="input">
-                        @Html.TextAreaFor(m => m.Template.Preview, new { @rows = 8} )</div>
+                        @Html.TextAreaFor(m => m.Template.Preview, new { @rows = 8 })</div>
                 </li>                
             </ul>
         </div>
     </div>
     <div class="box">
-        <div class="title"><h2>@Piranha.Resources.Global.Advanced</h2></div>
+        <div class="title"><h2>@Global.Advanced</h2></div>
         <div class="inner">
             <ul class="form">
                 <li>@Html.LabelFor(m => m.Template.Controller)
                     <div class="right">
                         @Html.CheckBoxFor(m => m.Template.ShowController)</div>
                     <div class="input short">
-                        @Html.TextBoxFor(m => m.Template.Controller, 
-                            new { @placeholder = Piranha.Resources.Global.Optional })</div>
+                        @Html.TextBoxFor(m => m.Template.Controller, new { @placeholder = Global.Optional })</div>
                 </li>
                 <li>@Html.LabelFor(m => m.Template.ArchiveController)
                     <div class="right">
                         @Html.CheckBoxFor(m => m.Template.ShowArchiveController)</div>
                     <div class="input short">
-                        @Html.TextBoxFor(m => m.Template.ArchiveController, 
-                            new { @placeholder = Piranha.Resources.Global.Optional })</div>
+                        @Html.TextBoxFor(m => m.Template.ArchiveController, new { @placeholder = Global.Optional })</div>
                 </li>
                 <li>
                     @Html.LabelFor(m => m.Template.AllowRss)
-                    <p>@Html.CheckBoxFor(m => m.Template.AllowRss) (@Piranha.Resources.Template.AllowRssDescription)</p>
+                    <p>@Html.CheckBoxFor(m => m.Template.AllowRss) (@Template.AllowRssDescription)</p>
                 </li>
             </ul>
         </div>
     </div>
 </div>
 <div class="grid_3">
-    @if (!Model.Template.IsNew && !String.IsNullOrEmpty(Model.Template.Preview.ToHtmlString())) {
-    <div class="box pagetemplate">
-        <div class="title"><h2>@Piranha.Resources.Page.HtmlPreview</h2></div>
-        <div class="inner">
-            <div class="edit">
-                @Model.Template.Preview
+    @if (!Model.Template.IsNew && !string.IsNullOrEmpty(Model.Template.Preview.ToHtmlString()))
+    {
+        <div class="box pagetemplate">
+            <div class="title"><h2>@Resources.Page.HtmlPreview</h2></div>
+            <div class="inner">
+                <div class="edit">
+                    @Model.Template.Preview
+                </div>
             </div>
         </div>
-    </div>
     }
     <div class="box">
-        <div class="title"><h2>@Piranha.Resources.Global.Properties</h2></div>
+        <div class="title"><h2>@Global.Properties</h2></div>
         <div class="inner">
             <div id="region_data"></div>
             <ul id="properties" class="list buttons">
-                @foreach (var property in Model.Template.Properties) {
-                <li><span>@property</span><button class="btn delete right remove-region"></button></li>
+                @foreach (string property in Model.Template.Properties)
+                {
+                    <li><span>@property</span><button class="btn delete right remove-region"></button></li>
                 }
             </ul>
             <div class="input">
-                <input id="po_name" type="text" placeholder="@Piranha.Resources.Template.PropertyPlaceholder" /></div>
-            <button id="po_add" class="btn right">@Piranha.Resources.Global.Add</button>
+                <input id="po_name" type="text" placeholder="@Template.PropertyPlaceholder" /></div>
+            <button id="po_add" class="btn right">@Global.Add</button>
             <div class="clear"></div>
-         </div>
+        </div>
     </div>
 </div>
-@{ Html.EndForm() ; }
+@{ Html.EndForm(); }

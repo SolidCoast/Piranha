@@ -15,20 +15,20 @@ function updateSeqnos() {
         $(rows.get(n)).find('.region-seqno').attr('value', n);
         var inputs = $(rows.get(n)).find('input');
 
-        $(rows.get(n)).find('input').attr('id', function (i, val) {
+        $(rows.get(n)).find('input').attr('id', function(i, val) {
             return val.replace(/\d+/, n - 1);
         });
-        $(rows.get(n)).find('input').attr('name', function (i, val) {
+        $(rows.get(n)).find('input').attr('name', function(i, val) {
             return val.replace(/\d+/, n - 1);
         });
     }
 }
 
-$(document).ready(function () {
+$(document).ready(function() {
     /**
     * Attaches the click event for the edit button
     */
-    $('.region-editor .edit').live('click', function () {
+    $('.region-editor .edit').live('click', function() {
         if (!$(this).hasClass('disabled')) {
             var row = $(this).parent().parent();
             row.find('span').not('.readonly').toggleClass('hidden');
@@ -40,7 +40,7 @@ $(document).ready(function () {
     * Attaches the click event for moving a region template
     * up in the list.
     */
-    $(".region-editor .up").live('click', function () {
+    $(".region-editor .up").live('click', function() {
         var row = $(this).parent().parent();
         if (row.parent().children().index(row) > 1) {
             row.insertBefore(row.prev());
@@ -51,7 +51,7 @@ $(document).ready(function () {
     * Attaches the click event for moving a region template
     * down in the list.
     */
-    $(".region-editor .down").live('click', function () {
+    $(".region-editor .down").live('click', function() {
         var row = $(this).parent().parent();
         if (row.parent().children().index(row) < row.parent().children().length - 2) {
             row.insertAfter(row.next());
@@ -62,7 +62,7 @@ $(document).ready(function () {
     * Attaches the click event for deleting a region
     * template from the list.
     */
-    $(".region-editor .delete").live('click', function () {
+    $(".region-editor .delete").live('click', function() {
         var row = $(this).parent().parent();
         row.remove();
         updateSeqnos();
@@ -71,7 +71,7 @@ $(document).ready(function () {
     * Attaches the click event for adding a new region
     * template to the list.
     */
-    $('.region-editor #btnAddRegion').click(function () {
+    $('.region-editor #btnAddRegion').click(function() {
         var seqno = $(this).parent().parent().parent().find('tr').length - 2;
         var row = $(this).parent().parent();
 
@@ -93,10 +93,10 @@ $(document).ready(function () {
                 dataType: 'html',
                 data: JSON.stringify(data),
                 contentType: 'application/json; charset=utf-8',
-                success: function (data) {
+                success: function(data) {
                     // Insert the return data
                     var obj = $(data);
-                    $.each(obj.find('input'), function (i, e) {
+                    $.each(obj.find('input'), function(i, e) {
                         $(e).attr('id', 'Regions_' + seqno + '__' + $(e).attr('id'));
                         $(e).attr('name', 'Regions[' + seqno + '].' + $(e).attr('name'));
                     });

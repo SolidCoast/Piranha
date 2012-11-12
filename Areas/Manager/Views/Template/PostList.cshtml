@@ -1,19 +1,22 @@
-﻿@model Piranha.Models.Manager.TemplateModels.PostListModel
+﻿@using Piranha.Models
+@using Piranha.Resources
+@model Models.Manager.TemplateModels.PostListModel
 @{
-    ViewBag.Title = @Piranha.Resources.Template.ListTitlePost ;
-    ViewBag.Selected = "Settings" ;
-    ViewBag.SelectedTab = "PostType" ;
+    ViewBag.Title = Template.ListTitlePost;
+    ViewBag.Selected = "Settings";
+    ViewBag.SelectedTab = "PostType";
+
 }
 @section Head {
     <script type="text/javascript">
-        $(document).ready(function () {
+        $(document).ready(function() {
             $(".delete").click(function() {
-                return confirm("@Piranha.Resources.Template.MessageDeletePostConfirm");
+                return confirm("@Template.MessageDeletePostConfirm");
             });
 
             // Setup template list
             var options = {
-                listClass:  'list-js',
+                listClass: 'list-js',
                 searchId: 'search',
                 valueNames: ['name', 'updated', 'created']
             };
@@ -22,37 +25,38 @@
     </script>
 }
 @section Toolbar { 
-@Html.Partial("Partial/Tabs")
-<div class="toolbar">
-    <div class="inner">
-        <ul>
-            <li><a href="@Url.Action("post")" class="add">@Piranha.Resources.Global.ToolbarAdd</a></li>
-            <li><a href="" class="refresh">@Piranha.Resources.Global.ToolbarReload</a></li>
-        </ul>
-        <button class="search" title="@Piranha.Resources.Global.ToolbarSearch"></button>@Html.TextBox("search")
-        <div class="clear"></div>
+    @Html.Partial("Partial/Tabs")
+    <div class="toolbar">
+        <div class="inner">
+            <ul>
+                <li><a href="@Url.Action("post")" class="add">@Global.ToolbarAdd</a></li>
+                <li><a href="" class="refresh">@Global.ToolbarReload</a></li>
+            </ul>
+            <button class="search" title="@Global.ToolbarSearch"></button>@Html.TextBox("search")
+            <div class="clear"></div>
+        </div>
     </div>
-</div>
 }
 <div class="grid_12">
     <table id="list" class="list">
         <thead>
             <tr>
-                <th><span class="sort asc" data-sort="name">@Piranha.Resources.Global.Name</span></th>
-                <th class="date"><span class="sort" data-sort="updated">@Piranha.Resources.Global.Updated</span></th>
-                <th class="date"><span class="sort" data-sort="created">@Piranha.Resources.Global.Created</span></th>
+                <th><span class="sort asc" data-sort="name">@Global.Name</span></th>
+                <th class="date"><span class="sort" data-sort="updated">@Global.Updated</span></th>
+                <th class="date"><span class="sort" data-sort="created">@Global.Created</span></th>
                 <th class="one"></th>
             </tr>
         </thead>
         <tbody class="list-js">
-            @foreach (var pt in Model.Templates) {
-            <tr>
-                <td class="name"><a href="@Url.Action("post", new { id = pt.Id })">@pt.Name</a></td>
-                <td class="updated">@pt.Updated.ToString("yyyy-MM-dd")</td>
-                <td class="created">@pt.Created.ToString("yyyy-MM-dd")</td>
-                <td class="buttons">
-                    <a class="icon delete" href="@Url.Action("deletepost", new { id = pt.Id })"></a></td>
-            </tr>
+            @foreach (PostTemplate pt in Model.Templates)
+            {
+                <tr>
+                    <td class="name"><a href="@Url.Action("post", new { id = pt.Id })">@pt.Name</a></td>
+                    <td class="updated">@pt.Updated.ToString("yyyy-MM-dd")</td>
+                    <td class="created">@pt.Created.ToString("yyyy-MM-dd")</td>
+                    <td class="buttons">
+                        <a class="icon delete" href="@Url.Action("deletepost", new { id = pt.Id })"></a></td>
+                </tr>
             }
         </tbody>
         <tfoot>

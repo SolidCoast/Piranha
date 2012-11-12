@@ -1,7 +1,9 @@
-﻿@model Piranha.Models.Manager.SettingModels.UserListModel
+﻿@using Piranha.Models
+@using Piranha.Resources
+@model Models.Manager.SettingModels.UserListModel
 @section Head {
     <script type="text/javascript">
-        $(document).ready(function () {
+        $(document).ready(function() {
             var options = {
                 listClass: 'list-js',
                 searchId: 'search',
@@ -12,17 +14,17 @@
     </script>
 }
 @section Toolbar {
-@Html.Partial("Partial/Tabs")
-<div class="toolbar">
-    <div class="inner">
-        <ul>
-            <li id="add"><a href="@Url.Action("user")" class="add">@Piranha.Resources.Global.ToolbarAdd</a></li>
-            <li><a href="@Url.Action("userlist")" class="refresh">@Piranha.Resources.Global.ToolbarReload</a></li>
-        </ul>
-        <button class="search"></button>@Html.TextBox("search")
-        <div class="clear"></div>
+    @Html.Partial("Partial/Tabs")
+    <div class="toolbar">
+        <div class="inner">
+            <ul>
+                <li id="add"><a href="@Url.Action("user")" class="add">@Global.ToolbarAdd</a></li>
+                <li><a href="@Url.Action("userlist")" class="refresh">@Global.ToolbarReload</a></li>
+            </ul>
+            <button class="search"></button>@Html.TextBox("search")
+            <div class="clear"></div>
+        </div>
     </div>
-</div>
 }
 
 <div class="grid_12">
@@ -30,39 +32,45 @@
         <thead>
             <tr>
                 <th></th>
-                <th><span class="sort asc" data-sort="login">@Piranha.Resources.Global.Username</span></th>
-                <th><span class="sort" data-sort="name">@Piranha.Resources.Global.Name</span></th>
-                <th><span class="sort" data-sort="group">@Piranha.Resources.Global.Group</span></th>
-                <th class="date"><span class="sort" data-sort="updated">@Piranha.Resources.Global.Updated</span></th>
-                <th class="date"><span class="sort" data-sort="created">@Piranha.Resources.Global.Created</span></th>
+                <th><span class="sort asc" data-sort="login">@Global.Username</span></th>
+                <th><span class="sort" data-sort="name">@Global.Name</span></th>
+                <th><span class="sort" data-sort="group">@Global.Group</span></th>
+                <th class="date"><span class="sort" data-sort="updated">@Global.Updated</span></th>
+                <th class="date"><span class="sort" data-sort="created">@Global.Created</span></th>
                 <th class="one"></th>
             </tr>
         </thead>
         <tbody class="list-js">
-            @foreach (var user in Model.Users) {
-            <tr>
-                <td class="gravatar">
-                    @if (!String.IsNullOrEmpty(user.Email)) {
-                        <img src="@UI.Gravatar.Image(user.Email, 30)" alt="Gravatar for @user.Email" />
-                    }
-                </td>
-                <td class="login">
-                    @if (User.IsMember(user.GroupId)) {
-                    <a href="@Url.Action("user", new { id = user.Id })">@user.Login</a>
-                    } else {
-                    @user.Login
-                    }
-                </td>        
-                <td class="name">@user.Firstname @user.Surname</td>
-                <td class="group">@user.GroupName</td>
-                <td class="updated">@user.Updated.ToString("yyyy-MM-dd")</td>
-                <td class="created">@user.Created.ToString("yyyy-MM-dd")</td>
-                <td class="buttons">
-                    @if (User.IsMember(user.GroupId)) {
-                    <a class="icon delete" href="@Url.Action("deleteuser", new { id = user.Id })"></a>
-                    }
-                </td>
-            </tr>
+            @foreach (SysUser user in Model.Users)
+            {
+                <tr>
+                    <td class="gravatar">
+                        @if (!string.IsNullOrEmpty(user.Email))
+                        {
+                           // <img src="@UI.Gravatar.Image(user.Email, 30)" alt="Gravatar for @user.Email" />
+                        }
+                    </td>
+                    <td class="login">
+                        @if (User.IsMember(user.GroupId))
+                        {
+                            <a href="@Url.Action("user", new { id = user.Id })">@user.Login</a>
+                        }
+                        else
+                        {
+                            @user.Login
+                        }
+                    </td>        
+                    <td class="name">@user.Firstname @user.Surname</td>
+                    <td class="group">@user.GroupName</td>
+                    <td class="updated">@user.Updated.ToString("yyyy-MM-dd")</td>
+                    <td class="created">@user.Created.ToString("yyyy-MM-dd")</td>
+                    <td class="buttons">
+                        @if (User.IsMember(user.GroupId))
+                        {
+                            <a class="icon delete" href="@Url.Action("deleteuser", new { id = user.Id })"></a>
+                        }
+                    </td>
+                </tr>
             }
         </tbody>
         <tfoot>

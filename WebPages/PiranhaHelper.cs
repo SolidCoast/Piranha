@@ -13,7 +13,7 @@ namespace Piranha.WebPages
 	/// <summary>
 	/// View helper class.
 	/// </summary>
-	public class PiranhaHelper : Web.UIHelper
+	public class PiranhaHelper : Web.UiHelper
 	{
 		#region Members
 		private HtmlHelper Html ;

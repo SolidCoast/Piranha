@@ -1,21 +1,25 @@
-﻿@model Piranha.Models.Manager.SettingModels.ParamEditModel
+﻿@using Piranha.Resources
+@model Models.Manager.SettingModels.ParamEditModel
 @section Toolbar {
-@Html.Partial("Partial/Tabs")
-<div class="toolbar">
-    <div class="inner">
-        <ul>
-            <li><a class="save submit">@Piranha.Resources.Global.ToolbarSave</a></li>
-            @if (!Model.Param.IsLocked) {
-            <li><a href="@Url.Action("deleteparam", new { id = Model.Param.Id })" class="delete">@Piranha.Resources.Global.ToolbarDelete</a></li>
-            }
-            <li><a href="@Url.Action("paramlist")" class="back">@Piranha.Resources.Global.ToolbarBack</a></li>
-            <li><a href="@Url.Action("param", new { id = Model.Param.Id })" class="refresh">@Piranha.Resources.Global.ToolbarReload</a></li>
-        </ul>
-        <div class="clear"></div>
+    @Html.Partial("Partial/Tabs")
+    <div class="toolbar">
+        <div class="inner">
+            <ul>
+                <li><a class="save submit">@Global.ToolbarSave</a></li>
+                @if (!Model.Param.IsLocked)
+                {
+                    <li><a href="@Url.Action("deleteparam", new { id = Model.Param.Id })" class="delete">@Global.ToolbarDelete</a></li>
+                }
+                <li><a href="@Url.Action("paramlist")" class="back">@Global.ToolbarBack</a></li>
+                <li><a href="@Url.Action("param", new { id = Model.Param.Id })" class="refresh">@Global.ToolbarReload</a></li>
+            </ul>
+            <div class="clear"></div>
+        </div>
     </div>
-</div>
 }
-@{ Html.BeginForm() ; }
+@{ Html.BeginForm(); }
+
+
 @Html.HiddenFor(m => m.Param.Id)
 @Html.HiddenFor(m => m.Param.IsNew)
 @Html.HiddenFor(m => m.Param.IsLocked)
@@ -29,9 +33,12 @@
                 <li>
                     @Html.LabelFor(m => m.Param.Name)
                     <div class="input">
-                        @if (!Model.Param.IsLocked) {
+                        @if (!Model.Param.IsLocked)
+                        {
                             @Html.TextBoxFor(m => m.Param.Name)
-                        } else {
+                        }
+                        else
+                        {
                             @Html.TextBoxFor(m => m.Param.Name, new { @disabled = "disabled" })
                             @Html.HiddenFor(m => m.Param.Name)
                         }
@@ -41,9 +48,12 @@
                 <li>
                     @Html.LabelFor(m => m.Param.Value)
                     <div class="input">
-                        @if (Model.Param.Name != "SITE_VERSION") {
+                        @if (Model.Param.Name != "SITE_VERSION")
+                        {
                             @Html.TextBoxFor(m => m.Param.Value)
-                        } else {
+                        }
+                        else
+                        {
                             @Html.TextBoxFor(m => m.Param.Value, new { @disabled = "disabled" })
                             @Html.HiddenFor(m => m.Param.Value)
                         } 
@@ -52,12 +62,13 @@
                 <li>
                     @Html.LabelFor(m => m.Param.Description)
                     <div class="input">
-                        @if (!Model.Param.IsLocked) {
-                            @Html.TextAreaFor(m => m.Param.Description, 
-                                new { @rows = 3, @placeholder = Piranha.Resources.Global.Optional })
-                        } else {
-                            @Html.TextAreaFor(m => m.Param.Description, 
-                                new { @rows = 3, @disabled = "disabled", @placeholder = Piranha.Resources.Global.Optional })
+                        @if (!Model.Param.IsLocked)
+                        {
+                            @Html.TextAreaFor(m => m.Param.Description, new { @rows = 3, @placeholder = Global.Optional })
+                        }
+                        else
+                        {
+                            @Html.TextAreaFor(m => m.Param.Description, new { @rows = 3, @disabled = "disabled", @placeholder = Global.Optional })
                             @Html.HiddenFor(m => m.Param.Description)
                         }
                     </div>
@@ -66,4 +77,4 @@
         </div>
     </div>
 </div>
-@{ Html.EndForm() ; }
+@{ Html.EndForm(); }

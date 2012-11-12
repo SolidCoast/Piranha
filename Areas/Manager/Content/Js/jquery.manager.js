@@ -29,21 +29,21 @@ FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR
 OTHER DEALINGS IN THE SOFTWARE.
 
 */
-(function (window, undefined) {
+(function(window, undefined) {
     "use strict";
     var document = window.document,
-	h;
+        h;
 
-    var List = function (id, options, values) {
+    var List = function(id, options, values) {
         var self = this,
-		templater,
-		init,
-		initialItems,
-		sorter,
-		Item,
-		Templater,
-		sortButtons,
-		lastSearch = "";
+            templater,
+            init,
+            initialItems,
+            sorter,
+            Item,
+            Templater,
+            sortButtons,
+            lastSearch = "";
 
         this.listContainer = document.getElementById(id);
         this.items = [];
@@ -52,10 +52,10 @@ OTHER DEALINGS IN THE SOFTWARE.
         this.filtered = false;
 
         this.list = null;
-        this.templateEngines = {};
+        this.templateEngines = { };
         this.maxVisibleItemsCount = options.maxVisibleItemsCount || 200;
 
-        init = function (values, options) {
+        init = function(values, options) {
 
             options.list = options.list || id;
             options.listClass = options.listClass || 'list';
@@ -71,7 +71,7 @@ OTHER DEALINGS IN THE SOFTWARE.
             h.addEvent(sortButtons, 'click', self.sort);
             if (options.valueNames) {
                 var itemsToIndex = initialItems.get(),
-                valueNames = options.valueNames;
+                    valueNames = options.valueNames;
                 if (options.indexAsync) {
                     initialItems.indexAsync(itemsToIndex, valueNames);
                 } else {
@@ -84,10 +84,10 @@ OTHER DEALINGS IN THE SOFTWARE.
         };
 
         initialItems = {
-            get: function () {
+            get: function() {
                 // return h.getByClass('item', self.list);
                 var nodes = self.list.childNodes,
-            items = [];
+                    items = [];
                 for (var i = 0, il = nodes.length; i < il; i++) {
                     // Only textnodes have a data attribute
                     if (nodes[i].data === undefined) {
@@ -96,16 +96,16 @@ OTHER DEALINGS IN THE SOFTWARE.
                 }
                 return items;
             },
-            index: function (itemElements, valueNames) {
+            index: function(itemElements, valueNames) {
                 for (var i = 0, il = itemElements.length; i < il; i++) {
                     self.items.push(new Item(valueNames, itemElements[i]));
                 }
             },
-            indexAsync: function (itemElements, valueNames) {
+            indexAsync: function(itemElements, valueNames) {
                 var itemsToIndex = itemElements.splice(0, 100); // TODO: If < 100 items, what happens in IE etc?
                 this.index(itemsToIndex, valueNames);
                 if (itemElements.length > 0) {
-                    setTimeout(function () {
+                    setTimeout(function() {
                         initialItems.indexAsync(itemElements, valueNames);
                     }, 10);
                 } /* else {
@@ -118,12 +118,12 @@ OTHER DEALINGS IN THE SOFTWARE.
         /*
         * Add object to list
         */
-        this.add = function (values, callback) {
+        this.add = function(values, callback) {
             if (callback) {
                 addAsync(values, callback);
             }
             var added = [],
-            notCreate = false;
+                notCreate = false;
             if (values[0] === undefined) {
                 values = [values];
             }
@@ -149,12 +149,12 @@ OTHER DEALINGS IN THE SOFTWARE.
         * Adds items asynchronous to the list, good for adding huge amount of
         * data. Defaults to add 100 items a time
         */
-        var addAsync = function (values, callback, items) {
+        var addAsync = function(values, callback, items) {
             var valuesToAdd = values.splice(0, 100);
             items = items || [];
             items = items.concat(self.add(valuesToAdd));
             if (values.length > 0) {
-                setTimeout(function () {
+                setTimeout(function() {
                     addAsync(values, callback, items);
                 }, 10);
             } else {
@@ -166,7 +166,7 @@ OTHER DEALINGS IN THE SOFTWARE.
         * Loops through the list and removes objects where
         * property "valuename" === value
         */
-        this.remove = function (valueName, value, options) {
+        this.remove = function(valueName, value, options) {
             var found = 0;
             for (var i = 0, il = self.items.length; i < il; i++) {
                 if (self.items[i].values()[valueName] == value) {
@@ -182,7 +182,7 @@ OTHER DEALINGS IN THE SOFTWARE.
         /* Gets the objects in the list which
         * property "valueName" === value
         */
-        this.get = function (valueName, value) {
+        this.get = function(valueName, value) {
             var matchedItems = [];
             for (var i = 0, il = self.items.length; i < il; i++) {
                 var item = self.items[i];
@@ -205,15 +205,15 @@ OTHER DEALINGS IN THE SOFTWARE.
         *
         * TODO: Add Desc || Asc
         */
-        this.sort = function (valueName, options) {
+        this.sort = function(valueName, options) {
             var length = self.items.length,
-            value = null,
-            target = valueName.target || valueName.srcElement, /* IE have srcElement */
-            sorting = '',
-            isAsc = false,
-            asc = 'asc',
-            desc = 'desc',
-            options = options || {};
+                value = null,
+                target = valueName.target || valueName.srcElement, /* IE have srcElement */
+                sorting = '',
+                isAsc = false,
+                asc = 'asc',
+                desc = 'desc',
+                options = options || { };
 
             if (target === undefined) {
                 value = valueName;
@@ -241,7 +241,7 @@ OTHER DEALINGS IN THE SOFTWARE.
             if (options.sortFunction) {
                 options.sortFunction = options.sortFunction;
             } else {
-                options.sortFunction = function (a, b) {
+                options.sortFunction = function(a, b) {
                     return sorter.alphanum(a.values()[value], b.values()[value], isAsc);
                 };
             }
@@ -253,19 +253,19 @@ OTHER DEALINGS IN THE SOFTWARE.
         * The sort function. From http://my.opera.com/GreyWyvern/blog/show.dml/1671288
         */
         sorter = {
-            alphanum: function (a, b, asc) {
+            alphanum: function(a, b, asc) {
                 if (a === undefined || a === null) {
                     a = "";
                 }
                 if (b === undefined || b === null) {
                     b = "";
                 }
-                a = a.toString().replace(/&(lt|gt);/g, function (strMatch, p1) {
+                a = a.toString().replace(/&(lt|gt);/g, function(strMatch, p1) {
                     return (p1 == "lt") ? "<" : ">";
                 });
                 a = a.replace(/<\/?[^>]+(>|$)/g, "");
 
-                b = b.toString().replace(/&(lt|gt);/g, function (strMatch, p1) {
+                b = b.toString().replace(/&(lt|gt);/g, function(strMatch, p1) {
                     return (p1 == "lt") ? "<" : ">";
                 });
                 b = b.replace(/<\/?[^>]+(>|$)/g, "");
@@ -292,7 +292,7 @@ OTHER DEALINGS IN THE SOFTWARE.
                 }
                 return aa.length - bb.length;
             },
-            chunkify: function (t) {
+            chunkify: function(t) {
                 var tz = [], x = 0, y = -1, n = 0, i, j;
 
                 while (i = (j = t.charAt(x++)).charCodeAt(0)) {
@@ -312,16 +312,16 @@ OTHER DEALINGS IN THE SOFTWARE.
         * The columns parameter defines if all values should be included in the search,
         * defaults to undefined which means "all".
         */
-        this.search = function (searchString, columns) {
+        this.search = function(searchString, columns) {
             var matching = [],
-            found,
-            item,
-            text,
-            values,
-            is,
-            columns = (columns === undefined) ? self.items[0].values() : columns,
-            searchString = (searchString === undefined) ? "" : searchString,
-            target = searchString.target || searchString.srcElement; /* IE have srcElement */
+                found,
+                item,
+                text,
+                values,
+                is,
+                columns = (columns === undefined) ? self.items[0].values() : columns,
+                searchString = (searchString === undefined) ? "" : searchString,
+                target = searchString.target || searchString.srcElement; /* IE have srcElement */
 
             searchString = (target === undefined) ? searchString.toLowerCase() : target.value.toLowerCase();
             is = self.items;
@@ -366,7 +366,7 @@ OTHER DEALINGS IN THE SOFTWARE.
         * Filters the list. If filterFunction() returns False hides the Item.
         * if filterFunction == false are the filter removed
         */
-        this.filter = function (filterFunction) {
+        this.filter = function(filterFunction) {
             var matching = undefined;
             reset.filter();
             if (filterFunction === undefined) {
@@ -392,59 +392,54 @@ OTHER DEALINGS IN THE SOFTWARE.
         /*
         * Get size of the list
         */
-        this.size = function () {
+        this.size = function() {
             return self.items.length;
         };
 
         /*
         * Removes all items from the list
         */
-        this.clear = function () {
+        this.clear = function() {
             templater.clear();
             self.items = [];
         };
 
         var reset = {
-            filter: function () {
+            filter: function() {
                 var is = self.items,
-                il = is.length;
+                    il = is.length;
                 while (il--) {
                     is[il].filtered = false;
                 }
             },
-            search: function () {
+            search: function() {
                 var is = self.items,
-                il = is.length;
+                    il = is.length;
                 while (il--) {
                     is[il].found = false;
                 }
             }
-        }
-
-        var updateVisible = function () {
+        };
+        var updateVisible = function() {
             var is = self.items;
             templater.clear();
             for (var i = 0, il = is.length; i < il && i < self.maxVisibleItemsCount; i++) {
-                if (
-                (self.filtered && self.searched && is[i].found && is[i].filtered) ||
-                (self.filtered && !self.searched && is[i].filtered) ||
-                (!self.filtered && self.searched && is[i].found) ||
-                (!self.filtered && !self.searched)
-            ) {
+                if ((self.filtered && self.searched && is[i].found && is[i].filtered) ||
+                    (self.filtered && !self.searched && is[i].filtered) ||
+                    (!self.filtered && self.searched && is[i].found) ||
+                    (!self.filtered && !self.searched)) {
                     is[i].show();
                 }
             }
-        }
-
-
-        Item = function (initValues, element, notCreate) {
+        };
+        Item = function(initValues, element, notCreate) {
             var item = this,
-            values = {};
+                values = { };
 
             this.found = false;
             this.filtered = false;
 
-            var init = function (initValues, element, notCreate) {
+            var init = function(initValues, element, notCreate) {
                 if (element === undefined) {
                     if (notCreate) {
                         item.values(initValues, notCreate);
@@ -457,7 +452,7 @@ OTHER DEALINGS IN THE SOFTWARE.
                     item.values(values);
                 }
             };
-            this.values = function (newValues, notCreate) {
+            this.values = function(newValues, notCreate) {
                 if (newValues !== undefined) {
                     for (var name in newValues) {
                         values[name] = newValues[name];
@@ -469,10 +464,10 @@ OTHER DEALINGS IN THE SOFTWARE.
                     return values;
                 }
             };
-            this.show = function () {
+            this.show = function() {
                 templater.show(item);
             };
-            this.hide = function () {
+            this.hide = function() {
                 templater.hide(item);
             };
             init(initValues, element, notCreate);
@@ -483,7 +478,7 @@ OTHER DEALINGS IN THE SOFTWARE.
         * - reload(item)
         * - remove(item)
         */
-        Templater = function (list, settings) {
+        Templater = function(list, settings) {
             if (settings.engine === undefined) {
                 settings.engine = "standard";
             } else {
@@ -493,46 +488,45 @@ OTHER DEALINGS IN THE SOFTWARE.
         };
 
         init(values, options);
-    }
+    };
+    List.prototype.templateEngines = { };
 
-    List.prototype.templateEngines = {};
 
-
-    List.prototype.templateEngines.standard = function (list, settings) {
+    List.prototype.templateEngines.standard = function(list, settings) {
         var listSource = h.getByClass(settings.listClass, document.getElementById(settings.list))[0],
-        itemSource = document.getElementById(settings.item),
-        templater = this,
-        ensure = {
-            tryItemSourceExists: function () {
-                if (itemSource === null) {
-                    var nodes = listSource.childNodes,
-                    items = [];
-                    for (var i = 0, il = nodes.length; i < il; i++) {
-                        // Only textnodes have a data attribute
-                        if (nodes[i].data === undefined) {
-                            itemSource = nodes[i];
-                            break;
+            itemSource = document.getElementById(settings.item),
+            templater = this,
+            ensure = {
+                tryItemSourceExists: function() {
+                    if (itemSource === null) {
+                        var nodes = listSource.childNodes,
+                            items = [];
+                        for (var i = 0, il = nodes.length; i < il; i++) {
+                            // Only textnodes have a data attribute
+                            if (nodes[i].data === undefined) {
+                                itemSource = nodes[i];
+                                break;
+                            }
                         }
                     }
+                },
+                created: function(item) {
+                    if (item.elm === undefined) {
+                        templater.create(item);
+                    }
+                },
+                added: function(item) {
+                    if (item.elm.parentNode === null) {
+                        templater.add(item);
+                    }
                 }
-            },
-            created: function (item) {
-                if (item.elm === undefined) {
-                    templater.create(item);
-                }
-            },
-            added: function (item) {
-                if (item.elm.parentNode === null) {
-                    templater.add(item);
-                }
-            }
-        };
+            };
 
         /* Get values from element */
-        this.get = function (item, valueNames) {
+        this.get = function(item, valueNames) {
             ensure.tryItemSourceExists();
             ensure.created(item);
-            var values = {};
+            var values = { };
             for (var i = 0, il = valueNames.length; i < il; i++) {
                 values[valueNames[i]] = h.getByClass(valueNames[i], item.elm)[0].innerHTML;
             }
@@ -540,7 +534,7 @@ OTHER DEALINGS IN THE SOFTWARE.
         };
 
         /* Sets values at element */
-        this.set = function (item, values) {
+        this.set = function(item, values) {
             ensure.created(item);
             for (var v in values) {
                 if (values.hasOwnProperty(v)) {
@@ -553,7 +547,7 @@ OTHER DEALINGS IN THE SOFTWARE.
             }
         };
 
-        this.create = function (item) {
+        this.create = function(item) {
             if (item.elm !== undefined) {
                 return;
             }
@@ -565,24 +559,24 @@ OTHER DEALINGS IN THE SOFTWARE.
             item.elm = newItem;
             templater.set(item, item.values());
         };
-        this.add = function (item) {
+        this.add = function(item) {
             ensure.created(item);
             listSource.appendChild(item.elm);
         };
-        this.remove = function (item) {
+        this.remove = function(item) {
             listSource.removeChild(item.elm);
         };
-        this.show = function (item) {
+        this.show = function(item) {
             ensure.created(item);
             ensure.added(item);
             listSource.appendChild(item.elm);
         };
-        this.hide = function (item) {
+        this.hide = function(item) {
             if (item.elm !== undefined && item.elm.parentNode === listSource) {
                 listSource.removeChild(item.elm);
             }
         };
-        this.clear = function () {
+        this.clear = function() {
             /* .innerHTML = ''; fucks up IE */
             if (listSource.hasChildNodes()) {
                 while (listSource.childNodes.length >= 1) {
@@ -603,9 +597,9 @@ OTHER DEALINGS IN THE SOFTWARE.
         * if it exists. Modified version of Dustin Diaz function:
         * http://www.dustindiaz.com/getelementsbyclass
         */
-        getByClass: (function () {
+        getByClass: (function() {
             if (document.getElementsByClassName) {
-                return function (searchClass, node, single) {
+                return function(searchClass, node, single) {
                     if (single) {
                         return node.getElementsByClassName(searchClass)[0];
                     } else {
@@ -613,9 +607,9 @@ OTHER DEALINGS IN THE SOFTWARE.
                     }
                 };
             } else {
-                return function (searchClass, node, single) {
+                return function(searchClass, node, single) {
                     var classElements = [],
-                    tag = '*';
+                        tag = '*';
                     if (node == null) {
                         node = document;
                     }
@@ -637,9 +631,9 @@ OTHER DEALINGS IN THE SOFTWARE.
             }
         })(),
         /* (elm, 'event' callback) Source: http://net.tutsplus.com/tutorials/javascript-ajax/javascript-from-null-cross-browser-event-binding/ */
-        addEvent: (function (window, document) {
+        addEvent: (function(window, document) {
             if (document.addEventListener) {
-                return function (elem, type, cb) {
+                return function(elem, type, cb) {
                     if ((elem && !(elem instanceof Array) && !elem.length && !h.isNodeList(elem) && (elem.length !== 0)) || elem === window) {
                         elem.addEventListener(type, cb, false);
                     } else if (elem && elem[0] !== undefined) {
@@ -649,11 +643,10 @@ OTHER DEALINGS IN THE SOFTWARE.
                         }
                     }
                 };
-            }
-            else if (document.attachEvent) {
-                return function (elem, type, cb) {
+            } else if (document.attachEvent) {
+                return function(elem, type, cb) {
                     if ((elem && !(elem instanceof Array) && !elem.length && !h.isNodeList(elem) && (elem.length !== 0)) || elem === window) {
-                        elem.attachEvent('on' + type, function () { return cb.call(elem, window.event); });
+                        elem.attachEvent('on' + type, function() { return cb.call(elem, window.event); });
                     } else if (elem && elem[0] !== undefined) {
                         var len = elem.length;
                         for (var i = 0; i < len; i++) {
@@ -664,7 +657,7 @@ OTHER DEALINGS IN THE SOFTWARE.
             }
         })(this, document),
         /* (elm, attribute) Source: http://stackoverflow.com/questions/3755227/cross-browser-javascript-getattribute-method */
-        getAttribute: function (ele, attr) {
+        getAttribute: function(ele, attr) {
             var result = (ele.getAttribute && ele.getAttribute(attr)) || null;
             if (!result) {
                 var attrs = ele.attributes;
@@ -680,18 +673,18 @@ OTHER DEALINGS IN THE SOFTWARE.
             return result;
         },
         /* http://stackoverflow.com/questions/7238177/detect-htmlcollection-nodelist-in-javascript */
-        isNodeList: function (nodes) {
+        isNodeList: function(nodes) {
             var result = Object.prototype.toString.call(nodes);
             if (typeof nodes === 'object' && /^\[object (HTMLCollection|NodeList|Object)\]$/.test(result) && (nodes.length == 0 || (typeof node === "object" && nodes[0].nodeType > 0))) {
                 return true;
             }
             return false;
         },
-        hasClass: function (ele, classN) {
+        hasClass: function(ele, classN) {
             var classes = this.getAttribute(ele, 'class');
             return (classes.search(classN) > -1);
         },
-        addClass: function (ele, classN) {
+        addClass: function(ele, classN) {
             if (!this.hasClass(ele, classN)) {
                 var classes = this.getAttribute(ele, 'class');
                 classes = classes + ' ' + classN + ' ';
@@ -699,7 +692,7 @@ OTHER DEALINGS IN THE SOFTWARE.
                 ele.setAttribute('class', classes);
             }
         },
-        removeClass: function (ele, classN) {
+        removeClass: function(ele, classN) {
             if (this.hasClass(ele, classN)) {
                 var classes = this.getAttribute(ele, 'class');
                 classes = classes.replace(classN, '');
@@ -717,21 +710,21 @@ OTHER DEALINGS IN THE SOFTWARE.
 */
 
 // Create a String.endsWith function.
-String.prototype.endsWith = function (suffix) {
+String.prototype.endsWith = function(suffix) {
     return this.indexOf(suffix, this.length - suffix.length) !== -1;
 };
 
 // Remove whitespaces
-String.prototype.removeSpaces = function () {
+String.prototype.removeSpaces = function() {
     return this.replace(/\s/g, "");
 };
 
 // Fix even/odd table rows for old browsers
-$(document).ready(function () {
+$(document).ready(function() {
     if ($.browser.msie && $.browser.version.slice(0, 1) < 9) {
-        $.each($("table.list"), function (i, tbl) {
+        $.each($("table.list"), function(i, tbl) {
             var odd = false;
-            $.each($(tbl).find("tr"), function (i, e) {
+            $.each($(tbl).find("tr"), function(i, e) {
                 if (odd)
                     $(this).addClass("odd");
                 odd = !odd;
@@ -744,37 +737,39 @@ $(document).ready(function () {
 var active_tooltip = "";
 
 // Binds the basic form events.
+
 function bindFormEvents() {
     //
     // Submit the form
     //
     //$(".submit").unbind();
-    $(".submit").click(function () {
+    $(".submit").click(function() {
         $("#draft").attr("value", "true");
         $("form").submit();
     });
     //$(".publish").unbind();
-    $(".publish").click(function () {
+    $(".publish").click(function() {
         $("#draft").attr("value", "false");
         $("form").submit();
     });
     //$("button.search").unbind();
-    $("button.search").click(function () {
+    $("button.search").click(function() {
         return false;
     });
 }
 
 // Shows a system message in popup-box
+
 function SysMsg(title, body) {
     $('#SysMsgTitle').html(title);
     $('#SysMsgBody').html(body);
     floatBox.show('boxSysMsg', 340);
 }
 
-$(document).ready(function () {
+$(document).ready(function() {
     bindFormEvents();
 
-    $(".info").click(function () {
+    $(".info").click(function() {
         $(".help").slideToggle("medium");
         return false;
     });
@@ -782,9 +777,9 @@ $(document).ready(function () {
     //
     // Toggle optional content
     //
-    $(".expandable .title").click(function () {
+    $(".expandable .title").click(function() {
         var title = $(this);
-        title.parent().find(".optional").slideToggle("fast", function () {
+        title.parent().find(".optional").slideToggle("fast", function() {
             title.toggleClass("expanded");
         });
     });
@@ -796,10 +791,10 @@ $(document).ready(function () {
     //
     // Tabs
     //
-    $(".tabs a").click(function () {
+    $(".tabs a").click(function() {
         if ($(this).attr("href").substring(0, 1) == "#") {
             // First hide all tab data and remove the selected class
-            $.each($(this).parent().siblings("li"), function (i, e) {
+            $.each($(this).parent().siblings("li"), function(i, e) {
                 $("a[name=" + $(e).children("a").attr("href").substring(1) + "]").addClass("hidden");
                 $(this).children("a").removeClass("selected");
             });
@@ -813,33 +808,33 @@ $(document).ready(function () {
     //
     // Form validation errors
     //
-    $(".field-validation-error").click(function () {
+    $(".field-validation-error").click(function() {
         $(this).fadeOut();
     });
 
     //
     // File uploads
     //
-    $(".file").live("click", function () {
+    $(".file").live("click", function() {
         $("#" + $(this).attr("data-id")).click();
         return false;
     });
 
-    $("input[type=file]").live("change", function () {
+    $("input[type=file]").live("change", function() {
         $("#" + $(this).attr("data-id")).val($(this).val());
     });
 
     //
     // Floatbox close button
     //
-    $(".floatbox .box .title").click(function () {
+    $(".floatbox .box .title").click(function() {
         floatBox.close($(this).parent().parent().attr("id"));
     });
 
     //
     // Locked form fields
     //
-    $(".protected .locked").click(function () {
+    $(".protected .locked").click(function() {
         var p = $(this).siblings("p");
         var i = $(this).siblings(".input");
 
@@ -864,17 +859,18 @@ $(document).ready(function () {
 /**
  * Positions the tooltips
  */
+
 function positionTooltips() {
-    $.each($(".toolbar .tooltip"), function (i, e) {
+    $.each($(".toolbar .tooltip"), function(i, e) {
         $(this).css({ left: -(($(this).outerWidth() - $(this).parent("li").width()) / 2) });
     });
 }
 
 function bindAjaxBoxEvents() {
-    $(".floatbox .close-btn").click(function () {
+    $(".floatbox .close-btn").click(function() {
         floatBox.close($(this).attr("data-id"));
     });
-    $(".box-tabs a").click(function () {
+    $(".box-tabs a").click(function() {
         var id = $(this).attr("href").substring(1);
         var pr = $(this).parent().parent().parent();
 
@@ -883,7 +879,7 @@ function bindAjaxBoxEvents() {
 
         $(this).parent().siblings("li").removeClass("selected");
         $(this).parent().addClass("selected");
-        $.each($(".floatbox .box"), function (i, e) {
+        $.each($(".floatbox .box"), function(i, e) {
             floatBox.position($(e));
         });
     });
@@ -896,11 +892,11 @@ function bindAjaxBoxEvents() {
 //
 // Floatbox object definition.
 //
-var floatBox = new function () {
+var floatBox = new function() {
     //
     // Shows the floatbox with the given id.
     //
-    this.show = function (id, width, height) {
+    this.show = function(id, width, height) {
         var outer = $("#" + id);
         var inner = outer.children(".box:first");
         if (width)
@@ -913,7 +909,7 @@ var floatBox = new function () {
 
         // Set dimensions, position and attach event handlers
         this.position(inner);
-        outer.children(".bg:first").click(function () { floatBox.close(id) });
+        outer.children(".bg:first").click(function() { floatBox.close(id); });
 
         return false;
     };
@@ -921,7 +917,7 @@ var floatBox = new function () {
     //
     // Closes the box with the given id and unbind it's events
     //
-    this.close = function (id) {
+    this.close = function(id) {
         $("#" + id).fadeOut("medium");
         $(this).unbind();
     };
@@ -929,19 +925,18 @@ var floatBox = new function () {
     //
     // Positions the given box/boxes on the y-axis
     //
-    this.position = function (box) {
+    this.position = function(box) {
         box.css({
             marginTop: Math.max(20, ($(window).height() - box.height() - 20) / 2),
             marginLeft: Math.max(20, ($(window).width() - box.width()) / 2)
         });
-    }
-}
-
+    };
+};
 //
 // Window resize event
 //
-$(window).resize(function () {
-    $.each($(".floatbox .box"), function (i, e) {
+$(window).resize(function() {
+    $.each($(".floatbox .box"), function(i, e) {
         floatBox.position($(e));
     });
 });

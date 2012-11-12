@@ -1,28 +1,30 @@
-﻿@{
-    ViewBag.Title = @Piranha.Resources.Settings.ListTitleExternal ;
+﻿@using Piranha.Resources
+@{
+    ViewBag.Title = Settings.ListTitleExternal;
+
 }
 @section Toolbar {
-@Html.Partial("Partial/Tabs")
-<div class="toolbar">
-    <div class="inner">
-        <ul>
-            <li id="add"><a href="@Url.Action("user")" class="add">@Piranha.Resources.Global.ToolbarAdd</a></li>
-            <li><a href="@Url.Action("paramlist")" class="refresh">@Piranha.Resources.Global.ToolbarReload</a></li>
-        </ul>
-        <button class="search"></button>@Html.TextBox("search")
-        <div class="clear"></div>
+    @Html.Partial("Partial/Tabs")
+    <div class="toolbar">
+        <div class="inner">
+            <ul>
+                <li id="add"><a href="@Url.Action("user")" class="add">@Global.ToolbarAdd</a></li>
+                <li><a href="@Url.Action("paramlist")" class="refresh">@Global.ToolbarReload</a></li>
+            </ul>
+            <button class="search"></button>@Html.TextBox("search")
+            <div class="clear"></div>
+        </div>
     </div>
-</div>
 }
 <div class="grid_12">
     <table id="list" class="list">
         <thead>
             <tr>
-                <th><span class="sort asc" data-sort="name">@Piranha.Resources.Global.Name</span></th>
-                <th><span class="sort" data-sort="account">@Piranha.Resources.Global.Account</span></th>
+                <th><span class="sort asc" data-sort="name">@Global.Name</span></th>
+                <th><span class="sort" data-sort="account">@Global.Account</span></th>
                 <th><span>Status</span></th>
-                <th class="date"><span class="sort" data-sort="updated">@Piranha.Resources.Global.Updated</span></th>
-                <th class="date"><span class="sort" data-sort="created">@Piranha.Resources.Global.Created</span></th>
+                <th class="date"><span class="sort" data-sort="updated">@Global.Updated</span></th>
+                <th class="date"><span class="sort" data-sort="created">@Global.Created</span></th>
                 <th class="one"></th>
             </tr>
         </thead>

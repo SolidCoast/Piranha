@@ -1,21 +1,25 @@
-﻿@model Piranha.Models.Manager.SettingModels.AccessEditModel
+﻿@using Piranha.Resources
+@model Models.Manager.SettingModels.AccessEditModel
 @section Toolbar {
-@Html.Partial("Partial/Tabs")
-<div class="toolbar">
-    <div class="inner">
-        <ul>
-            <li><a class="save submit">@Piranha.Resources.Global.ToolbarSave</a></li>
-            @if (!Model.Access.IsLocked) {
-            <li><a href="@Url.Action("deleteaccess", new { id = Model.Access.Id })" class="delete">@Piranha.Resources.Global.ToolbarDelete</a></li>
-            }
-            <li><a href="@Url.Action("accesslist")" class="back">@Piranha.Resources.Global.ToolbarBack</a></li>
-            <li><a href="@Url.Action("access", new { id = Model.Access.Id })" class="refresh">@Piranha.Resources.Global.ToolbarReload</a></li>
-        </ul>
-        <div class="clear"></div>
+    @Html.Partial("Partial/Tabs")
+    <div class="toolbar">
+        <div class="inner">
+            <ul>
+                <li><a class="save submit">@Global.ToolbarSave</a></li>
+                @if (!Model.Access.IsLocked)
+                {
+                    <li><a href="@Url.Action("deleteaccess", new { id = Model.Access.Id })" class="delete">@Global.ToolbarDelete</a></li>
+                }
+                <li><a href="@Url.Action("accesslist")" class="back">@Global.ToolbarBack</a></li>
+                <li><a href="@Url.Action("access", new { id = Model.Access.Id })" class="refresh">@Global.ToolbarReload</a></li>
+            </ul>
+            <div class="clear"></div>
+        </div>
     </div>
-</div>
 }
-@{ Html.BeginForm() ; }
+@{ Html.BeginForm(); }
+
+
 @Html.HiddenFor(m => m.Access.Id)
 @Html.HiddenFor(m => m.Access.IsNew)
 @Html.HiddenFor(m => m.Access.IsLocked)
@@ -23,15 +27,18 @@
 @Html.HiddenFor(m => m.Access.CreatedBy)
 <div class="grid_9">
     <div class="box">
-        <div class="title"><h2>@Piranha.Resources.Global.Information</h2></div>
+        <div class="title"><h2>@Global.Information</h2></div>
         <div class="inner">
             <ul class="form">
                 <li>
                     @Html.LabelFor(m => m.Access.Function)
                     <div class="input">
-                        @if (!Model.Access.IsLocked) {
+                        @if (!Model.Access.IsLocked)
+                        {
                             @Html.TextBoxFor(m => m.Access.Function)
-                        } else {
+                        }
+                        else
+                        {
                             @Html.TextBoxFor(m => m.Access.Function, new { disabled = "disabled" })
                             @Html.HiddenFor(m => m.Access.Function)
                         }
@@ -47,12 +54,13 @@
                 <li>
                     @Html.LabelFor(m => m.Access.Description)
                     <div class="input">
-                        @if (!Model.Access.IsLocked) {
-                            @Html.TextAreaFor(m => m.Access.Description, 
-                                new { @rows = 3, @placeholder = Piranha.Resources.Global.Optional })
-                        } else {
-                            @Html.TextAreaFor(m => m.Access.Description, 
-                                new { @rows = 3, @disabled = "disabled", @placeholder = Piranha.Resources.Global.Optional })
+                        @if (!Model.Access.IsLocked)
+                        {
+                            @Html.TextAreaFor(m => m.Access.Description, new { @rows = 3, @placeholder = Global.Optional })
+                        }
+                        else
+                        {
+                            @Html.TextAreaFor(m => m.Access.Description, new { @rows = 3, @disabled = "disabled", @placeholder = Global.Optional })
                             @Html.HiddenFor(m => m.Access.Description)
                         }
                     </div>
@@ -63,16 +71,19 @@
 </div>
 <div class="grid_3">
     <div class="box">
-        <div class="title"><h2>@Piranha.Resources.Settings.AccessMembers</h2></div>
+        <div class="title"><h2>@Settings.AccessMembers</h2></div>
         <div class="inner">
-            @if (!Model.Access.IsNew) {
-            <ul>
-                <li>Todo</li>
-            </ul>
-            } else {
-                <p><em>@Piranha.Resources.Settings.AccessMembersNew</em></p>
+            @if (!Model.Access.IsNew)
+            {
+                <ul>
+                    <li>Todo</li>
+                </ul>
+            }
+            else
+            {
+                <p><em>@Settings.AccessMembersNew</em></p>
             }
         </div>
     </div>
 </div>
-@{ Html.EndForm() ; }
+@{ Html.EndForm(); }

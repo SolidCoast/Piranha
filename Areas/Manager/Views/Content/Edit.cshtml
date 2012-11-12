@@ -1,19 +1,24 @@
-﻿@model Piranha.Models.Manager.ContentModels.EditModel
+﻿@using Piranha.Models.Manager
+@using Piranha.Resources
+@using Piranha.Web
+@model Models.Manager.ContentModels.EditModel
 @section Toolbar {
-@Html.Partial("Partial/Tabs")
-<div class="toolbar">
-    <div class="inner">
-        <ul>
-            <li><a class="save submit">@Piranha.Resources.Global.ToolbarSave</a></li>
-            <li><a href="@Url.Action("delete", new { id = Model.Content.Id })" class="delete">@Piranha.Resources.Global.ToolbarDelete</a></li>
-            <li><a href="@Url.Action("index", new { id = Model.Content.Id })" class="back">@Piranha.Resources.Global.ToolbarBack</a></li>
-            <li><a href="@Url.Action("edit", new { id = Model.Content.Id })" class="refresh">@Piranha.Resources.Global.ToolbarReload</a></li>
-        </ul>
-        <div class="clear"></div>
+    @Html.Partial("Partial/Tabs")
+    <div class="toolbar">
+        <div class="inner">
+            <ul>
+                <li><a class="save submit">@Global.ToolbarSave</a></li>
+                <li><a href="@Url.Action("delete", new { id = Model.Content.Id })" class="delete">@Global.ToolbarDelete</a></li>
+                <li><a href="@Url.Action("index", new { id = Model.Content.Id })" class="back">@Global.ToolbarBack</a></li>
+                <li><a href="@Url.Action("edit", new { id = Model.Content.Id })" class="refresh">@Global.ToolbarReload</a></li>
+            </ul>
+            <div class="clear"></div>
+        </div>
     </div>
-</div>
 }
-@{ Html.BeginForm("edit", "content", FormMethod.Post, new { enctype = "multipart/form-data" }) ; }
+@{ Html.BeginForm("edit", "content", FormMethod.Post, new { enctype = "multipart/form-data" }); }
+
+
 @Html.HiddenFor(m => m.Content.Id)
 @Html.HiddenFor(m => m.Content.IsNew)
 @Html.HiddenFor(m => m.Content.IsImage)
@@ -26,131 +31,138 @@
 @Html.HiddenFor(m => m.Content.Height)
 @Html.HiddenFor(m => m.Content.Size)
 <div class="grid_9">
-    @if (!ViewBag.Folder) {
-    <div class="box">
-        <div class="title"><h2>@Piranha.Resources.Content.ChooseFile</h2></div>
-        <div class="inner">
-            <ul class="form">
-                <li>
-                    <label>@Piranha.Resources.Content.Upload</label>
-                    <div class="upload">
-                        <input type="file" id="UploadedFile" name="UploadedFile" data-id="upload_name" />
-                        <button class="btn blue file" data-id="UploadedFile">@Piranha.Resources.Global.ChooseFile</button>
-                        <div class="input">
-                            <input id="upload_name" type="text" />
+    @if (!ViewBag.Folder)
+    {
+        <div class="box">
+            <div class="title"><h2>@Content.ChooseFile</h2></div>
+            <div class="inner">
+                <ul class="form">
+                    <li>
+                        <label>@Content.Upload</label>
+                        <div class="upload">
+                            <input type="file" id="UploadedFile" name="UploadedFile" data-id="upload_name" />
+                            <button class="btn blue file" data-id="UploadedFile">@Global.ChooseFile</button>
+                            <div class="input">
+                                <input id="upload_name" type="text" />
+                            </div>
                         </div>
-                    </div>
-                </li>
-                <li>
-                    @Html.LabelFor(m => m.FileUrl)
-                    <div class="input">
-                        @Html.TextBoxFor(m => m.FileUrl, 
-                            new { @placeholder = @Piranha.Resources.Global.FileUrl })</div>
-                </li>
-            </ul>
+                    </li>
+                    <li>
+                        @Html.LabelFor(m => m.FileUrl)
+                        <div class="input">
+                            @Html.TextBoxFor(m => m.FileUrl, new { @placeholder = Global.FileUrl })</div>
+                    </li>
+                </ul>
+            </div>
         </div>
-    </div>
     }
     <div class="box">
-        <div class="title"><h2>@Piranha.Resources.Global.Information</h2></div>
+        <div class="title"><h2>@Global.Information</h2></div>
         <div class="inner">
             <ul class="form">
                 <li>
                     @Html.LabelFor(m => m.Content.Name)
                     <div class="input">
-                        @Html.TextBoxFor(m => m.Content.Name, 
-                            new { @placeholder = @Piranha.Resources.Global.Optional })</div>
+                        @Html.TextBoxFor(m => m.Content.Name, new { @placeholder = Global.Optional })</div>
                 </li>
                 <li>
                     @Html.LabelFor(m => m.Content.ParentId)
                     <div class="input">
                         <select id="Content_ParentId" name="Content.ParentId">
-                            @foreach (var f in Model.Folders) {
-                            <option value="@f.Value"@(f.Value == Model.Content.ParentId ? " selected=selected" : "")>
-                                @Html.Raw(f.Text)</option>
+                            @foreach (Placement f in Model.Folders)
+                            {
+                                <option value="@f.Value"@(f.Value == Model.Content.ParentId ? " selected=selected" : string.Empty)>
+                                    @Html.Raw(f.Text)</option>
                             }
                         </select>
                     </div>
                 </li>
-                @if (!ViewBag.Folder) {
-                <li>
-                    @Html.LabelFor(m => m.Content.AlternateText)
-                    <div class="input">
-                        @Html.TextBoxFor(m => m.Content.AlternateText, 
-                            new { @placeholder = @Piranha.Resources.Global.Optional })</div>
-                </li>
-                <li>
-                    @Html.LabelFor(m => m.Content.Description)
-                    <div class="input">
-                        @Html.TextAreaFor(m => m.Content.Description, 
-                            new { @rows = 3, @placeholder = @Piranha.Resources.Global.Optional })</div>
-                </li>
+                @if (!ViewBag.Folder)
+                {
+                    <li>
+                        @Html.LabelFor(m => m.Content.AlternateText)
+                        <div class="input">
+                            @Html.TextBoxFor(m => m.Content.AlternateText, new { @placeholder = Global.Optional })</div>
+                    </li>
+                    <li>
+                        @Html.LabelFor(m => m.Content.Description)
+                        <div class="input">
+                            @Html.TextAreaFor(m => m.Content.Description, new { @rows = 3, @placeholder = Global.Optional })</div>
+                    </li>
                 }
             </ul>
         </div>
     </div>
-    @if (Model.Extensions.Count > 0) {
+    @if (Model.Extensions.Count > 0)
+    {
         @Html.EditorFor(m => m.Extensions)
     }
-    @if (!Model.Content.IsNew && !Model.Content.IsFolder) {    
-    <div class="box">
-        <div class="title"><h2>@Piranha.Resources.Content.FileInformation</h2></div>
-        <div class="inner">
-            <ul class="form">
-                <li>@Html.LabelFor(m => m.Content.Filename)
-                    <p>@Model.Content.Filename</p>
-                </li>
-                <li>@Html.LabelFor(m => m.Content.Size)
-                    <p>@Math.Max(Model.Content.Size / 1024, 1) kb (@(Model.Content.GetTotalSize() / 1024) kb @Piranha.Resources.Content.IncludingCache)</p>
-                </li>
-                <li>@Html.LabelFor(m => m.Content.Type)
-                    <p>@Model.Content.Type</p>
-                </li>
-                @if (Model.Content.IsImage) {
-                <li><label>@Piranha.Resources.Content.ImageSize</label>
-                    <p>@(Model.Content.Width)x@(Model.Content.Height) px</p>
-                </li>
-                }
-                <li><label>@Piranha.Resources.Global.PublicLink</label>
-                    <p>@UI.Content(Model.Content.Id)</p>
-                </li>
-            </ul>
+    @if (!Model.Content.IsNew && !Model.Content.IsFolder)
+    {
+        <div class="box">
+            <div class="title"><h2>@Content.FileInformation</h2></div>
+            <div class="inner">
+                <ul class="form">
+                    <li>@Html.LabelFor(m => m.Content.Filename)
+                        <p>@Model.Content.Filename</p>
+                    </li>
+                    <li>@Html.LabelFor(m => m.Content.Size)
+                        <p>@Math.Max(Model.Content.Size / 1024, 1) kb (@(Model.Content.GetTotalSize() / 1024) kb @Content.IncludingCache)</p>
+                    </li>
+                    <li>@Html.LabelFor(m => m.Content.Type)
+                        <p>@Model.Content.Type</p>
+                    </li>
+                    @if (Model.Content.IsImage)
+                    {
+                        <li><label>@Content.ImageSize</label>
+                            <p>@Model.Content.Width@(Model.Content.Height) px</p>
+                        </li>
+                    }
+                    <li><label>@Global.PublicLink</label>
+  @*                      <p>@UiHelper.Content(Model.Content.Id)</p>*@
+                    </li>
+                </ul>
+            </div>
         </div>
-    </div>
     }
 </div>
 <div class="grid_3">
-    @if (Model.Content.IsImage) {
-    <div class="box">
-        <div class="title"><h2>@Piranha.Resources.Global.Thumbnail</h2></div>
-        <div class="inner">
-            @if (!Model.Content.IsNew) {
-                <img style="max-width:190px" alt="@Model.Content.AlternateText" src="@Url.Content("~/thumb/" + Model.Content.Id + "/190")" />
-            } else {
-                <p><em>@Piranha.Resources.Content.ThumbnailNewDescription</em></p>
-            }
+    @if (Model.Content.IsImage)
+    {
+        <div class="box">
+            <div class="title"><h2>@Global.Thumbnail</h2></div>
+            <div class="inner">
+                @if (!Model.Content.IsNew)
+                {
+                    <img style="max-width: 190px" alt="@Model.Content.AlternateText" src="@Url.Content("~/thumb/" + Model.Content.Id + "/190")" />
+                }
+                else
+                {
+                    <p><em>@Content.ThumbnailNewDescription</em></p>
+                }
+            </div>
         </div>
-    </div>
     }
     <div class="box pagetemplate overflow">
-        <div class="title"><h2>@Piranha.Resources.Global.Categories</h2></div>
+        <div class="title"><h2>@Global.Categories</h2></div>
         <div class="inner">
-            <select name="ContentCategories" class="chzn-select" style="width:190px" multiple="multiple">
-                @foreach (var opt in Model.Categories) {
-                <option@(opt.Selected ? " selected=selected" : "") value="@opt.Value">@opt.Text</option>
+            <select name="ContentCategories" class="chzn-select" style="width: 190px" multiple="multiple">
+                @foreach (SelectListItem opt in Model.Categories)
+                {
+                    <option@(opt.Selected ? " selected=selected" : string.Empty) value="@opt.Value">@opt.Text</option>
                 }
             </select>
         </div>
     </div>
 </div>
-@{ Html.EndForm() ; }
+@{ Html.EndForm(); }
 @section Foot {
- <div id="boxUploads" class="floatbox">
-    <div class="bg"></div>
-    <div class="box" style="min-width: 510px;min-height:260px;">
-        <div class="title"><h2>Uploaded files</h2></div>
-        <div class="inner">
+    <div id="boxUploads" class="floatbox">
+        <div class="bg"></div>
+        <div class="box" style="min-height: 260px; min-width: 510px;">
+            <div class="title"><h2>Uploaded files</h2></div>
+            <div class="inner">
+            </div>
         </div>
     </div>
-</div>
 }

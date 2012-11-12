@@ -13,7 +13,7 @@ namespace Piranha.Web
 	/// <summary>
 	/// Abstract base class for the UI helper.
 	/// </summary>
-	public abstract class UIHelper
+	public abstract class UiHelper
 	{
 		#region Properties
 		/// <summary>
@@ -31,22 +31,17 @@ namespace Piranha.Web
 		/// </summary>
 		protected abstract Post CurrentPost { get ; }
 
-		/// <summary>
-		/// Gets the gravatar helper.
-		/// </summary>
-		public GravatarHelper Gravatar { get ; protected set ; }
 
 		/// <summary>
 		/// Gets the culture helper.
 		/// </summary>
-		public CultureHelper Culture { get ; protected set ; }
+		private CultureHelper Culture { get ; set ; }
 		#endregion
 
 		/// <summary>
 		/// Default constructor. Creates a new UI helper.
 		/// </summary>
-		protected UIHelper() {
-			Gravatar = new GravatarHelper() ;
+		protected UiHelper() {
 			Culture = new CultureHelper() ;
 		}
 
@@ -62,7 +57,7 @@ namespace Piranha.Web
 		/// </summary>
 		/// <returns>The head information</returns>
 		public IHtmlString Head() {
-			StringBuilder str = new StringBuilder() ;
+			var str = new StringBuilder() ;
 
 			str.AppendLine("<meta name=\"generator\" content=\"Piranha\" />") ;
 	        str.AppendLine("<meta http-equiv=\"X-UA-Compatible\" content=\"IE=edge,chrome=1\" />") ;
@@ -301,7 +296,7 @@ namespace Piranha.Web
 		/// <param name="RootNode">Optional root node</param>
 		/// <returns>The breadcrumb</returns>
 		public IHtmlString Breadcrumb(int StartLevel = 1, string RootNode = "") {
-			StringBuilder str = new StringBuilder() ;
+			var str = new StringBuilder() ;
 			List<Sitemap> sm = null ;
 
 			Page Current = CurrentPage ;

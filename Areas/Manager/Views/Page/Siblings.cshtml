@@ -1,9 +1,12 @@
-﻿@model List<Piranha.Models.Manager.PageModels.EditModel.PagePlacement>
+﻿@using Piranha.Models.Manager.PageModels
+@model List<EditModel.PagePlacement>
 @{
-    Layout = "";
+    Layout = string.Empty;
+
 }
 <select id="Page_Seqno" name="Page.Seqno">
-@foreach (var s in Model) {
-<option value="@s.Seqno"@(s.IsSelected ? " selected=selected" : "")>@s.Title</option>
-}
+    @foreach (EditModel.PagePlacement s in Model)
+    {
+        <option value="@s.Seqno"@(s.IsSelected ? " selected=selected" : string.Empty)>@s.Title</option>
+    }
 </select>

@@ -1,43 +1,70 @@
-﻿using System;
-using System.IO;
-using System.Reflection;
-using System.Web;
-
-using Piranha.Web;
+﻿// --------------------------------------------------------------------------------------------------------------------
+// <copyright file="Script.ashx.cs" company="">
+//   
+// </copyright>
+// <summary>
+//   
+// </summary>
+// --------------------------------------------------------------------------------------------------------------------
 
 namespace Piranha.Areas.Manager.Content.Js
 {
-	/// <summary>
-	/// Summary description for Css
-	/// </summary>
-	public class Script : IHttpHandler
-	{
-		#region Members
-		private const string resource = "Piranha.Areas.Manager.Content.Js.jquery.manager.js" ;
-		#endregion
+    using System;
+    using System.IO;
+    using System.Reflection;
+    using System.Web;
 
-		#region Properties
-		public bool IsReusable {
-			get { return false ; }
-		}
-		#endregion
+    using Piranha.Web;
 
-		/// <summary>
-		/// Process the request
-		/// </summary>
-		public void ProcessRequest(HttpContext context) {
-			DateTime mod = new FileInfo(Assembly.GetExecutingAssembly().Location).LastWriteTime ;
+    /// <summary>
+    /// Summary description for Css
+    /// </summary>
+    public class Script : IHttpHandler
+    {
+        #region Constants
 
-			if (!ClientCache.HandleClientCache(context, resource, mod)) {
-				StreamReader io = new StreamReader(Assembly.GetExecutingAssembly().GetManifestResourceStream(resource)) ;
-				context.Response.ContentType = "text/javascript" ;
+        /// <summary>
+        /// </summary>
+        private const string resource = "Piranha.Areas.Manager.Content.Js.jquery.manager.js";
+        #endregion
+
+        #region Public Properties
+
+        /// <summary>
+        /// </summary>
+        public bool IsReusable
+        {
+            get
+            {
+                return false;
+            }
+        }
+        #endregion
+
+        #region Public Methods and Operators
+
+        /// <summary>
+        /// Process the request
+        /// </summary>
+        /// <param name="context">
+        /// </param>
+        public void ProcessRequest(HttpContext context)
+        {
+            DateTime mod = new FileInfo(Assembly.GetExecutingAssembly().Location).LastWriteTime;
+
+            if (!ClientCache.HandleClientCache(context, resource, mod))
+            {
+                var io = new StreamReader(Assembly.GetExecutingAssembly().GetManifestResourceStream(resource));
+                context.Response.ContentType = "text/javascript";
 #if DEBUG
-				context.Response.Write(io.ReadToEnd()) ;
+                context.Response.Write(io.ReadToEnd());
 #else
 				context.Response.Write(JavaScriptCompressor.Compress(io.ReadToEnd())) ;
 #endif
-				io.Close() ;
-			}
-		}
-	}
+                io.Close();
+            }
+        }
+
+        #endregion
+    }
 }

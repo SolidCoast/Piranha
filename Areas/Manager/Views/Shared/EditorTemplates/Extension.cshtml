@@ -1,15 +1,17 @@
-﻿@model Piranha.Models.Extension
-@using Piranha.Extend;
+﻿@using Piranha.Extend
+@using Piranha.WebPages
+@model Models.Extension
 @{
-    var folder = Model.Type.LastIndexOf('.') > -1 ? Model.Type.Substring(0, Model.Type.LastIndexOf('.')) : "" ;
-    folder = folder != "" ? folder + "/" : "" ;
-    var view = Model.Type.Substring(folder.Length) ;
-    
-    var menu = Piranha.WebPages.Manager.GetActiveMenuItem() ;
-    var compat = menu != null && (menu.InternalId == "Categories" || menu.InternalId == "Media" || menu.InternalId == "Users") ;
+    string folder = Model.Type.LastIndexOf('.') > -1 ? Model.Type.Substring(0, Model.Type.LastIndexOf('.')) : string.Empty;
+    folder = folder != string.Empty ? folder + "/" : string.Empty;
+    string view = Model.Type.Substring(folder.Length);
+
+    Manager.MenuItem menu = Manager.GetActiveMenuItem();
+    bool compat = menu != null && (menu.InternalId == "Categories" || menu.InternalId == "Media" || menu.InternalId == "Users");
+
 }
 <div id="pnl-@ExtensionManager.GetInternalIdByType(Model.Type).ToLower()" class="@(!compat ? "main hidden" : "box")">
-    <div class="title"><h2>@Piranha.Extend.ExtensionManager.GetExtensionNameByType(Model.Type)</h2></div>
+    <div class="title"><h2>@ExtensionManager.GetExtensionNameByType(Model.Type)</h2></div>
     <div class="inner">
         @Html.HiddenFor(m => m.Id)
         @Html.HiddenFor(m => m.IsDraft)

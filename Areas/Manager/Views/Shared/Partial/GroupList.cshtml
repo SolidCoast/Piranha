@@ -1,14 +1,17 @@
-﻿@model Piranha.Models.Manager.PageModels.GroupListModel
+﻿@using Piranha.Models
+@model Models.Manager.PageModels.GroupListModel
 @{
-    Layout = "";
+    Layout = string.Empty;
+
 }
-@foreach (var group in Model.Groups) {
-<div class="half left">
-    <p class="checkbox">
-        @{ var cbId = "Page_DisabledGroups_" + group.Name ; }
-        <input type="checkbox" id="@cbId" name="Page.DisabledGroups" value="@group.Id"
-            @(Model.Page.DisabledGroups.Contains(group.Id) ? "checked=checked" : "") />
-        <label for="@cbId">@group.Name</label>
-    </p>
-</div>
+@foreach (SysGroup group in Model.Groups)
+{
+    <div class="half left">
+        <p class="checkbox">
+            @{ string cbId = "Page_DisabledGroups_" + group.Name; }
+            <input type="checkbox" id="@cbId" name="Page.DisabledGroups" value="@group.Id"
+                @(Model.Page.DisabledGroups.Contains(group.Id) ? "checked=checked" : string.Empty) />
+            <label for="@cbId">@group.Name</label>
+        </p>
+    </div>
 }

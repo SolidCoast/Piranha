@@ -2,9 +2,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using System.IO;
-using System.Linq;
 using System.Reflection;
-using System.Text;
 using System.Web;
 using System.Web.Caching;
 using System.Web.Hosting;
@@ -33,17 +31,12 @@ namespace Piranha.Web
 		}
 		#endregion
 
-		/// <summary>
-		/// Default constructor
-		/// </summary>
-		public ResourcePathProvider() {}
-
-		/// <summary>
+	    /// <summary>
 		/// Checks if the given virtual file exists in the assembly
 		/// </summary>
 		/// <param name="virtualpath">The virtual path</param>
 		/// <returns>If the path exists</returns>
-		private bool IsResourceFile(string virtualpath) {
+		private static bool IsResourceFile(string virtualpath) {
 			string name = VirtualPathUtility.ToAppRelative(virtualpath).Replace("/", ".").Replace("~", "Piranha").Replace("res.ashx.", "").ToLower() ;
 			ManifestResourceInfo info = Resources.ContainsKey(name) ? 
 				Assembly.GetExecutingAssembly().GetManifestResourceInfo(Resources[name]) : null ;
@@ -53,7 +46,7 @@ namespace Piranha.Web
 		/// <summary>
 		/// Checks if the file located at the given path exists.
 		/// </summary>
-		/// <param name="virtualpath">Theh virtual path</param>
+		/// <param name="virtualpath">The virtual path</param>
 		/// <returns>If the file exists</returns>
         public override bool FileExists(string virtualpath) {
             return (IsResourceFile(virtualpath) || base.FileExists(virtualpath)) ;
@@ -90,7 +83,7 @@ namespace Piranha.Web
     public class ResourceVirtualFile : VirtualFile
 	{
 		#region Members
-		private string path ;
+		private readonly string _path ;
 		#endregion
 
 		/// <summary>
@@ -99,7 +92,7 @@ namespace Piranha.Web
 		/// </summary>
 		/// <param name="virtualpath">The virtual path</param>
 		public ResourceVirtualFile(string virtualpath) : base(virtualpath) {
-            path = VirtualPathUtility.ToAppRelative(virtualpath) ;
+            _path = VirtualPathUtility.ToAppRelative(virtualpath) ;
         }
 
 		/// <summary>
@@ -107,7 +100,7 @@ namespace Piranha.Web
 		/// </summary>
 		/// <returns>The stream</returns>
         public override Stream Open() {
-			string res = path.Replace("/", ".").Replace("~", "Piranha").Replace("res.ashx.", "").ToLower() ;
+			var res = _path.Replace("/", ".").Replace("~", "Piranha").Replace("res.ashx.", "").ToLower() ;
 			return Assembly.GetExecutingAssembly().GetManifestResourceStream(ResourcePathProvider.Resources[res]) ;
         }
     }

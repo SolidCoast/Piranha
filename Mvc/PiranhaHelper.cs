@@ -12,7 +12,7 @@ namespace Piranha.Mvc
 	/// <summary>
 	/// View helper.
 	/// </summary>
-	public class PiranhaHelper : Web.UIHelper
+	public class PiranhaHelper : Web.UiHelper
 	{
 		#region Members
 		private WebViewPage Parent ;

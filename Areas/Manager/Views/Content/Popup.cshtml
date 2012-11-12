@@ -1,7 +1,9 @@
-﻿@model Piranha.Models.Manager.ContentModels.PopupModel
+﻿@using Piranha.Models
+@model Models.Manager.ContentModels.PopupModel
 @{
-    Layout = "";
-    var first = true ;
+    Layout = string.Empty;
+    bool first = true;
+
 }
 <div class="title">
     <ul class="box-tabs">
@@ -11,17 +13,21 @@
     <a class="close-btn right" data-id="boxContent"></a>
     <div class="clear"></div>
 </div>
-<div id="attach-existing" class="inner gallery @(Model.Content.Count > 12 ? "gallery-compressed" : "")">
-    @foreach (var content in Model.Content) {
-        <div class="gallery-item @(Model.Content.Count > 12 ? "compressed" : "")">
-            @if (first && content.ParentId != Guid.Empty) {
-            <img class="folder" data-id="@content.Id" src="@Url.Content("~/areas/manager/content/img/ico-folder-up-96.png")" />
-            } else {
-            <img@(content.IsFolder ? " class=folder" : (!content.IsImage ? " class=document" : "")) data-id="@content.Id" src="@Url.Content("~/thumb/" + content.Id + "/96")" title="@content.AlternateText" alt="@content.AlternateText" />
+<div id="attach-existing" class="inner gallery @(Model.Content.Count > 12 ? "gallery-compressed" : string.Empty)">
+    @foreach (Content content in Model.Content)
+    {
+        <div class="gallery-item @(Model.Content.Count > 12 ? "compressed" : string.Empty)">
+            @if (first && content.ParentId != Guid.Empty)
+            {
+                <img class="folder" data-id="@content.Id" src="@Url.Content("~/areas/manager/content/img/ico-folder-up-96.png")" />
+            }
+            else
+            {
+                <img@(content.IsFolder ? " class=folder" : (!content.IsImage ? " class=document" : string.Empty)) data-id="@content.Id" src="@Url.Content("~/thumb/" + content.Id + "/96")" title="@content.AlternateText" alt="@content.AlternateText" />
             }
             <p><small>@content.DisplayName</small></p>
         </div>
-        first = false ;
+        first = false;
     }
     <div class="clear"></div>
 </div>

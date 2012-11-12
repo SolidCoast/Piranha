@@ -14,7 +14,7 @@ namespace Piranha.Web
 	/// <summary>
 	/// Helper for generating rss feeds.
 	/// </summary>
-	public class RssHelper
+	public static class RssHelper
 	{
 		/// <summary>
 		/// Outputs the rss feed on the given http context

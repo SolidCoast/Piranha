@@ -1,19 +1,23 @@
-﻿@model Piranha.Models.Manager.CategoryModels.EditModel
+﻿@using Piranha.Resources
+@using Piranha.Web
+@model Piranha.Models.Manager.CategoryModels.EditModel
 @section Toolbar {
-@Html.Partial("Partial/Tabs")
-<div class="toolbar">
-    <div class="inner">
-        <ul>
-            <li><a class="save submit">@Piranha.Resources.Global.ToolbarSave</a></li>
-            <li><a href="@Url.Action("delete", new { id = Model.Category.Id })" class="delete">@Piranha.Resources.Global.ToolbarDelete</a></li>
-            <li><a href="@Url.Action("index", "category")" class="back">@Piranha.Resources.Global.ToolbarBack</a></li>
-            <li><a href="@Url.Action("edit", new { id = Model.Category.Id })" class="refresh">@Piranha.Resources.Global.ToolbarReload</a></li>
-        </ul>
-        <div class="clear"></div>
+    @Html.Partial("Partial/Tabs")
+    <div class="toolbar">
+        <div class="inner">
+            <ul>
+                <li><a class="save submit">@Global.ToolbarSave</a></li>
+                <li><a href="@Url.Action("delete", new { id = Model.Category.Id })" class="delete">@Global.ToolbarDelete</a></li>
+                <li><a href="@Url.Action("index", "category")" class="back">@Global.ToolbarBack</a></li>
+                <li><a href="@Url.Action("edit", new { id = Model.Category.Id })" class="refresh">@Global.ToolbarReload</a></li>
+            </ul>
+            <div class="clear"></div>
+        </div>
     </div>
-</div>
 }
-@{ Html.BeginForm() ; }
+@{ Html.BeginForm(); }
+
+
 @Html.HiddenFor(m => m.Category.Id)
 @Html.HiddenFor(m => m.Category.PermalinkId)
 @Html.HiddenFor(m => m.Category.IsNew)
@@ -26,7 +30,7 @@
 @Html.HiddenFor(m => m.Permalink.CreatedBy)
 <div class="grid_12">
     <div class="box">
-        <div class="title"><h2>@Piranha.Resources.Global.Information</h2></div>
+        <div class="title"><h2>@Global.Information</h2></div>
         <div class="inner">
             <ul class="form">
                 <li>
@@ -37,10 +41,13 @@
                 </li>
                 <li class="protected">
                     @Html.LabelFor(m => m.Category.Permalink)
-                	@if (!Model.Category.IsNew) {
-                    <p>http://@Request.Url.DnsSafeHost@Url.GetPermalink(Model.Category.Permalink).ToLower()</p>
-                    } else {
-                    <p><i>@Piranha.Resources.Category.PermalinkDescription</i></p>
+                    @if (!Model.Category.IsNew)
+                    {
+                        <p>http://@Request.Url.DnsSafeHost@(Url.GetPermalink(Model.Category.Permalink).ToLower())</p>
+                    }
+                    else
+                    {
+                        <p><i>@Category.PermalinkDescription</i></p>
                     }
                     <div class="input">
                         @Html.TextBoxFor(m => m.Permalink.Name)</div>
@@ -59,8 +66,9 @@
             </ul>
         </div>
     </div>
-    @if (Model.Extensions.Count > 0) {
+    @if (Model.Extensions.Count > 0)
+    {
         @Html.EditorFor(m => m.Extensions)
     }
 </div>
-@{ Html.EndForm() ; }
+@{ Html.EndForm(); }

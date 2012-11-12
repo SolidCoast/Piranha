@@ -1,18 +1,20 @@
-﻿@model Piranha.Models.Manager.CategoryModels.ListModel
+﻿@using Piranha.Resources
+@model Piranha.Models.Manager.CategoryModels.ListModel
 @{
-    ViewBag.Title = @Piranha.Resources.Category.ListTitle ;
+    ViewBag.Title = Category.ListTitle;
+
 }
 @section Head {
     <script type="text/javascript">
-        $(document).ready(function () {
+        $(document).ready(function() {
             // Set the selected template id
-            $(".delete").click(function () {
-                return confirm("@Piranha.Resources.Category.MessageDeleteConfirm") ;
+            $(".delete").click(function() {
+                return confirm("@Category.MessageDeleteConfirm");
             });
 
             // Setup template list
             var options = {
-                listClass:  'list-js',
+                listClass: 'list-js',
                 searchId: 'search',
                 valueNames: ['name', 'updated', 'created']
             };
@@ -21,40 +23,42 @@
     </script>
 }
 @section Toolbar { 
-@Html.Partial("Partial/Tabs")
-<div class="toolbar">
-    <div class="inner">
-        <ul>
-            <li><a href="@Url.Action("edit", "category")" class="add">@Piranha.Resources.Global.ToolbarAdd</a></li>
-            <li><a href="" class="refresh">@Piranha.Resources.Global.ToolbarReload</a></li>
-        </ul>
-        <button class="search" title="@Piranha.Resources.Global.ToolbarSearch"></button>@Html.TextBox("search")
-        <div class="clear"></div>
+    @Html.Partial("Partial/Tabs")
+    <div class="toolbar">
+        <div class="inner">
+            <ul>
+                <li><a href="@Url.Action("edit", "category")" class="add">@Global.ToolbarAdd</a></li>
+                <li><a href="" class="refresh">@Global.ToolbarReload</a></li>
+            </ul>
+            <button class="search" title="@Global.ToolbarSearch"></button>@Html.TextBox("search")
+            <div class="clear"></div>
+        </div>
     </div>
-</div>
 }
 <div class="grid_12">
     <table id="list" class="list">
         <thead>
             <tr>
-                <th><span class="sort asc" data-sort="name">@Piranha.Resources.Global.Name</span></th>
-                <th class="date"><span class="sort" data-sort="updated">@Piranha.Resources.Global.Updated</span></th>
-                <th class="date"><span class="sort" data-sort="created">@Piranha.Resources.Global.Created</span></th>
+                <th><span class="sort asc" data-sort="name">@Global.Name</span></th>
+                <th class="date"><span class="sort" data-sort="updated">@Global.Updated</span></th>
+                <th class="date"><span class="sort" data-sort="created">@Global.Created</span></th>
                 <th class="one"></th>
             </tr>
         </thead>
         <tbody class="list-js">
-            @foreach (var pc in Model.Categories) {
-            <tr>
-                <td class="name@(pc.Level > 1 ? " level" + pc.Level : "")"><a href="@Url.Action("edit", "category", new { id = pc.Id})">@pc.Name</a></td>
-                <td class="updated">@pc.Updated.ToString("yyyy-MM-dd")</td>
-                <td class="created">@pc.Created.ToString("yyyy-MM-dd")</td>
-                <td class="buttons">
-                    @if (pc.Categories.Count == 0) {
-                    <a class="icon delete" href="@Url.Action("delete", "category", new { id = pc.Id })"></a>
-                    }
-                </td>
-            </tr>
+            @foreach (Piranha.Models.Category pc in Model.Categories)
+            {
+                <tr>
+                    <td class="name@(pc.Level > 1 ? " level" + pc.Level : string.Empty)"><a href="@Url.Action("edit", "category", new { id = pc.Id })">@pc.Name</a></td>
+                    <td class="updated">@pc.Updated.ToString("yyyy-MM-dd")</td>
+                    <td class="created">@pc.Created.ToString("yyyy-MM-dd")</td>
+                    <td class="buttons">
+                        @if (pc.Categories.Count == 0)
+                        {
+                            <a class="icon delete" href="@Url.Action("delete", "category", new { id = pc.Id })"></a>
+                        }
+                    </td>
+                </tr>
             }
         </tbody>
         <tfoot>

@@ -4,7 +4,7 @@
  * 2012-08-24   Håkan Edling    @tidyui
  */
 
-$(document).ready(function () {
+$(document).ready(function() {
     // Show the active region on startup.
     $('#regions .region-body:first').show();
     var firstid = $("#regions .region-body:first").attr("id");
@@ -17,7 +17,7 @@ $(document).ready(function () {
     // 
     // Event handler for switching regions.
     //
-    $(".region").click(function () {
+    $(".region").click(function() {
         var id = $(this).attr("id").substring(4);
 
         hideEditors();
@@ -33,7 +33,7 @@ $(document).ready(function () {
     // Event handler for switching regions by clicking 
     // in the template preview.
     //
-    $(".edit td").click(function () {
+    $(".edit td").click(function() {
         if (!$(this).hasClass("locked")) {
             var id = $(this).attr("id");
 

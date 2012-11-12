@@ -1,23 +1,27 @@
-﻿@model Piranha.Models.Manager.PostModels.EditModel
-@using Piranha.Extend;
+﻿@using Piranha.Extend
+@using Piranha.Resources
+@using Piranha.Web
+@using Extension = Piranha.Models.Extension
+@using Post = Piranha.Resources.Post
+@model Models.Manager.PostModels.EditModel
 @section Head {
-    <script type="text/javascript" src="@Url.Content("~/Areas/Manager/Content/Js/jquery.form.js")"></script>
-    <script type="text/javascript" src="@Url.Content("~/Areas/Manager/Content/Js/jquery.attachment.js")"></script>
-    <script type="text/javascript" src="@Url.Content("~/Areas/Manager/Content/Js/jquery.media.dialog.js")"></script>
-    <script type="text/javascript" src="@Url.Content("~/Areas/Manager/Content/Js/Ext/jquery.equalheights.js")"></script>
+    <script type="text/javascript" src="@Url.Content("~/Areas/Manager/Content/Js/jquery.form.js")"> </script>
+    <script type="text/javascript" src="@Url.Content("~/Areas/Manager/Content/Js/jquery.attachment.js")"> </script>
+    <script type="text/javascript" src="@Url.Content("~/Areas/Manager/Content/Js/jquery.media.dialog.js")"> </script>
+    <script type="text/javascript" src="@Url.Content("~/Areas/Manager/Content/Js/Ext/jquery.equalheights.js")"> </script>
     @Html.Partial("~/Areas/Manager/Views/Shared/Partial/TinyMCE.cshtml")
     <script type="text/javascript">
         var isFixed = false;
         var folderId = "";
 
-        $(document).ready(function () {
-            $("#PostCategories").chosen().change(function () {
+        $(document).ready(function() {
+            $("#PostCategories").chosen().change(function() {
                 console.log("change");
                 var container = $(this).siblings(".chzn-container");
 
-                $.each($(this).find("option"), function (n, opt) {
+                $.each($(this).find("option"), function(n, opt) {
                     $(opt).removeAttr("selected");
-                    $.each(container.find(".result-selected"), function (i, e) {
+                    $.each(container.find(".result-selected"), function(i, e) {
                         if ($(e).html() == $(opt).html())
                             $(opt).attr("selected", "selected");
                     });
@@ -27,7 +31,7 @@
             //
             // Hides the attachment editor and shows the content body.
             //
-            $("#btn_content").click(function () {
+            $("#btn_content").click(function() {
                 $("#btn_attachments").removeClass("active");
                 $("#btn_content").addClass("active");
                 $("#attachments").hide();
@@ -41,6 +45,7 @@
         //
         // Hides all editors on the page. This callback is called from jquery.attachments.js
         //
+
         function hideEditors() {
             $("#btn_content").removeClass("active");
             $("#body").hide();
@@ -49,6 +54,7 @@
         //
         // This callback is called from jquery.attachments.js
         //
+
         function addAttachment(a) {
             // Store folder id so we can open the same folder next time.
             folderId = a.ParentId;
@@ -60,19 +66,20 @@
                     '<td>' + a.Filename + '</td>' +
                     '<td>' + a.Type + '</td>' +
                     '<td class="buttons three">' +
-                        '<a class="icon up marg"></a>' +
-                        '<a class="icon down marg"></a>' +
-                        '<a class="icon delete"></a></td>' +
-                '</tr>');
+                    '<a class="icon up marg"></a>' +
+                    '<a class="icon down marg"></a>' +
+                    '<a class="icon delete"></a></td>' +
+                    '</tr>');
         }
 
 
         //
         // This callback is called from jquery.attachments.js before form submit.
         //
+
         function addAttachmentData(index, val) {
             $("#attachment_data").append(
-                    '<input id="Post_Attachments_' + index +
+                '<input id="Post_Attachments_' + index +
                     '_" name="Post.Attachments[' + index +
                     ']" type="hidden" value="' + $(val).attr("data-id") + '" />');
         }
@@ -80,31 +87,34 @@
 }
 
 @section Toolbar {
-@Html.Partial("Partial/Tabs")
-<div class="toolbar">
-    <div class="inner">
-        <ul>
-            <li><a class="save submit">@Piranha.Resources.Global.ToolbarSave</a></li>
-            @if (!Model.Post.IsNew) {
-            <li><a href="http://@Request.Url.DnsSafeHost@Url.GetPermalink(Model.Post.Permalink, true)" target="preview" class="preview">@Piranha.Resources.Global.ToolbarPreview</a></li>
-            }
-            <li><a class="publish">@Piranha.Resources.Global.ToolbarPublish</a></li>
-            @if (Model.Post.Published > DateTime.MinValue) {
-            <li><a href="@Url.Action("unpublish", new { id = Model.Post.Id })" class="unpublish">@Piranha.Resources.Global.ToolbarUnpublish</a></li>
-            }
-            @if (Model.Post.Published > DateTime.MinValue && Model.Post.Updated > Model.Post.LastPublished) {
-            <li><a href="@Url.Action("revert", new { id = Model.Post.Id })" class="revert">@Piranha.Resources.Global.ToolbarRevert</a></li>
-            }
-            <li><a href="@Url.Action("delete", new { id = Model.Post.Id })" class="delete">@Piranha.Resources.Global.ToolbarDelete</a></li>
-            <li><a href="@Url.Action("index")" class="back">@Piranha.Resources.Global.ToolbarBack</a></li>
-            <li><a href="@Url.Action("edit", new { id = Model.Post.Id })" class="refresh">@Piranha.Resources.Global.ToolbarReload</a></li>
-        </ul>
-        <div class="clear"></div>
+    @Html.Partial("Partial/Tabs")
+    <div class="toolbar">
+        <div class="inner">
+            <ul>
+                <li><a class="save submit">@Global.ToolbarSave</a></li>
+                @if (!Model.Post.IsNew)
+                {
+                    <li><a href="http://@Request.Url.DnsSafeHost@(Url.GetPermalink(Model.Post.Permalink, true))" target="preview" class="preview">@Global.ToolbarPreview</a></li>
+                }
+                <li><a class="publish">@Global.ToolbarPublish</a></li>
+                @if (Model.Post.Published > DateTime.MinValue)
+                {
+                    <li><a href="@Url.Action("unpublish", new { id = Model.Post.Id })" class="unpublish">@Global.ToolbarUnpublish</a></li>
+                }
+                @if (Model.Post.Published > DateTime.MinValue && Model.Post.Updated > Model.Post.LastPublished)
+                {
+                    <li><a href="@Url.Action("revert", new { id = Model.Post.Id })" class="revert">@Global.ToolbarRevert</a></li>
+                }
+                <li><a href="@Url.Action("delete", new { id = Model.Post.Id })" class="delete">@Global.ToolbarDelete</a></li>
+                <li><a href="@Url.Action("index")" class="back">@Global.ToolbarBack</a></li>
+                <li><a href="@Url.Action("edit", new { id = Model.Post.Id })" class="refresh">@Global.ToolbarReload</a></li>
+            </ul>
+            <div class="clear"></div>
+        </div>
     </div>
-</div>
 }
 
-@{ Html.BeginForm("edit", (string)ViewContext.RouteData.Values["Controller"]) ; }
+@{ Html.BeginForm("edit", (string)ViewContext.RouteData.Values["Controller"]); }
 <div>
     @Html.HiddenFor(m => m.Post.IsNew)
     @Html.HiddenFor(m => m.Post.Id)
@@ -129,7 +139,7 @@
 <div class="first-row">
     <div class="grid_9">
         <div class="box">
-            <div class="title"><h2>@Piranha.Resources.Global.Information</h2></div>
+            <div class="title"><h2>@Global.Information</h2></div>
             <div class="inner">
                 <ul class="form">
                     <li>@Html.LabelFor(m => m.Post.Title)
@@ -138,10 +148,13 @@
                         @Html.ValidationMessageFor(m => m.Post.Title)
                     </li>
                     <li class="protected">@Html.LabelFor(m => m.Post.Permalink)
-                	    @if (!Model.Post.IsNew) {
-                        <p>http://@Request.Url.DnsSafeHost@UI.Permalink(Model.Post.Permalink)</p>
-                        } else {
-                        <p><i>@Piranha.Resources.Post.PermalinkDescription</i></p>
+                        @if (!Model.Post.IsNew)
+                        {
+                           // <p>http://@Request.Url.DnsSafeHost@(UI.Permalink(Model.Post.Permalink))</p>
+                        }
+                        else
+                        {
+                            <p><i>@Post.PermalinkDescription</i></p>
                         }
                         <div class="input">
                             @Html.TextBoxFor(m => m.Permalink.Name)</div>
@@ -150,7 +163,7 @@
                     <li>
                         @Html.LabelFor(m => m.Post.Excerpt)
                         <div class="input">
-                            @Html.TextAreaFor(m => m.Post.Excerpt, new { @placeholder = Piranha.Resources.Global.Optional, @rows = 3 })</div>
+                            @Html.TextAreaFor(m => m.Post.Excerpt, new { @placeholder = Global.Optional, @rows = 3 })</div>
                         @Html.ValidationMessageFor(m => m.Post.Excerpt)
                     </li>
                 </ul>
@@ -175,18 +188,19 @@
                 <tr>
                     <td class="tools">
                         <ul>
-                            <li class="btn-content active"><a href="#" data-id="pnl-content">@Piranha.Resources.Global.Content</a></li>
-                            <li class="btn-settings"><a href="#" data-id="pnl-settings">@Piranha.Resources.Global.Settings</a></li>
-                            @if (Model.Properties.Count > 0) {
-                            <li class="btn-properties"><a href="#" data-id="pnl-properties">@Piranha.Resources.Global.Properties</a></li>
+                            <li class="btn-content active"><a href="#" data-id="pnl-content">@Global.Content</a></li>
+                            <li class="btn-settings"><a href="#" data-id="pnl-settings">@Global.Settings</a></li>
+                            @if (Model.Properties.Count > 0)
+                            {
+                                <li class="btn-properties"><a href="#" data-id="pnl-properties">@Global.Properties</a></li>
                             }
-                            @foreach (var ext in Model.Extensions) {
-                            <li>
-                                <a href="#"@(ExtensionManager.GetIconPathByType(ext.Type) != "" ? "style=background-image:url('" + 
-                                Url.Content(ExtensionManager.GetIconPathByType(ext.Type)) + "')" : "") data-id="pnl-@ExtensionManager.GetInternalIdByType(ext.Type).ToLower()">
-                                    @ExtensionManager.GetExtensionNameByType(ext.Type)
-                                </a>
-                            </li>
+                            @foreach (Extension ext in Model.Extensions)
+                            {
+                                <li>
+                                    <a href="#"@(ExtensionManager.GetIconPathByType(ext.Type) != string.Empty ? "style=background-image:url('" + Url.Content(ExtensionManager.GetIconPathByType(ext.Type)) + "')" : string.Empty) data-id="pnl-@ExtensionManager.GetInternalIdByType(ext.Type).ToLower()">
+                                        @ExtensionManager.GetExtensionNameByType(ext.Type)
+                                    </a>
+                                </li>
                             }
                         </ul>
                     </td>
@@ -194,72 +208,77 @@
                         <div id="pnl-content" class="main content-editor">
                             <div class="title">
                                 <div id="regionbuttons" class="buttons">
-                                    <button id="btn_content" class="btn active">@Piranha.Resources.Global.Content</button>
-                                    <button id="btn_attachments" class="btn">@Piranha.Resources.Page.Attachments</button>
+                                    <button id="btn_content" class="btn active">@Global.Content</button>
+                                    <button id="btn_attachments" class="btn">@Resources.Page.Attachments</button>
                                 </div>
-                                <h2>@Piranha.Resources.Global.Content</h2>
+                                <h2>@Global.Content</h2>
                             </div>
                             <div class="inner region-body">
                                 <div id="body">
-                                    @Html.TextAreaFor(m => m.Post.Body, new { @class ="editor", @rows = 10 })
+                                    @Html.TextAreaFor(m => m.Post.Body, new { @class = "editor", @rows = 10 })
                                 </div>
-                                <div id="attachments" style="display:none">
+                                <div id="attachments" style="display: none">
                                     @Html.Partial("Partial/Attachments")
                                 </div>
                             </div>
                         </div>
                         <div id="pnl-settings" class="main hidden">
-                            <div class="title"><h2>@Piranha.Resources.Global.Settings</h2></div>
+                            <div class="title"><h2>@Global.Settings</h2></div>
                             <div class="inner">
                                 <ul class="form">
                                     <li>
-                                        <label>@Piranha.Resources.Global.Categories</label>
+                                        <label>@Global.Categories</label>
                                         <div class="input">
-                                        <select name="PostCategories" class="chzn-select" style="width:190px" multiple="multiple">
-                                            @foreach (var opt in Model.Categories) {
-                                            <option@(opt.Selected ? " selected=selected" : "") value="@opt.Value">@opt.Text</option>
-                                            }
-                                        </select></div>
+                                            <select name="PostCategories" class="chzn-select" style="width: 190px" multiple="multiple">
+                                                @foreach (SelectListItem opt in Model.Categories)
+                                                {
+                                                    <option@(opt.Selected ? " selected=selected" : string.Empty) value="@opt.Value">@opt.Text</option>
+                                                }
+                                            </select></div>
                                     </li>
                                     <li>@Html.LabelFor(m => m.Post.Keywords)
                                         <div class="input"> 
-                                            @Html.TextBoxFor(m => m.Post.Keywords, new { @placeholder = Piranha.Resources.Global.Optional })</div>
+                                            @Html.TextBoxFor(m => m.Post.Keywords, new { @placeholder = Global.Optional })</div>
                                         @Html.ValidationMessageFor(m => m.Post.Keywords)
                                     </li>
                                     <li>@Html.LabelFor(m => m.Post.Description)
                                         <div class="input">
-                                            @Html.TextAreaFor(m => m.Post.Description, new { @rows = 3, @placeholder = Piranha.Resources.Global.Optional })</div>
+                                            @Html.TextAreaFor(m => m.Post.Description, new { @rows = 3, @placeholder = Global.Optional })</div>
                                         @Html.ValidationMessageFor(m => m.Post.Description)
                                     </li>
                                     <li>
                                         @Html.LabelFor(m => m.Post.AllowRss)
-                                        <p>@Html.CheckBoxFor(m => m.Post.AllowRss) (@Piranha.Resources.Post.AllowRssDescription)</p>
+                                        <p>@Html.CheckBoxFor(m => m.Post.AllowRss) (@Post.AllowRssDescription)</p>
                                     </li>
                                 </ul>
                             </div>
                         </div>
-                        @if (Model.Properties.Count > 0) {
-                        <div id="pnl-properties" class="main hidden">
-                            <div class="title expanded"><h2>@Piranha.Resources.Global.Properties</h2></div>
-                            <div class="inner optional">
-                                <ul class="form">
-                                @for (int n = 0; n < Model.Properties.Count; n++) {
-                                    <li>@Html.LabelFor(m => m.Properties[n], Model.Properties[n].Name)
-                                        @Html.HiddenFor(m => m.Properties[n].Id)
-                                        @Html.HiddenFor(m => m.Properties[n].IsDraft)
-                                        @Html.HiddenFor(m => m.Properties[n].ParentId)
-                                        @Html.HiddenFor(m => m.Properties[n].Name)
-                                        @Html.HiddenFor(m => m.Properties[n].Created)
-                                        @Html.HiddenFor(m => m.Properties[n].CreatedBy)
-                                        @Html.HiddenFor(m => m.Properties[n].IsNew)
-                                        <div class="input">
-                                            @Html.TextBoxFor(m => m.Properties[n].Value)</div>
-                                    </li>
-                                }
-                                </ul>
+                        @if (Model.Properties.Count > 0)
+                        {
+                            <div id="pnl-properties" class="main hidden">
+                                <div class="title expanded"><h2>@Global.Properties</h2></div>
+                                <div class="inner optional">
+                                    <ul class="form">
+                                        @for (int n = 0; n < Model.Properties.Count; n++)
+                                        {
+                                            <li>@Html.LabelFor(m => m.Properties[n], Model.Properties[n].Name)
+                                                @Html.HiddenFor(m => m.Properties[n].Id)
+                                                @Html.HiddenFor(m => m.Properties[n].IsDraft)
+                                                @Html.HiddenFor(m => m.Properties[n].ParentId)
+                                                @Html.HiddenFor(m => m.Properties[n].Name)
+                                                @Html.HiddenFor(m => m.Properties[n].Created)
+                                                @Html.HiddenFor(m => m.Properties[n].CreatedBy)
+                                                @Html.HiddenFor(m => m.Properties[n].IsNew)
+                                                <div class="input">
+                                                    @Html.TextBoxFor(m => m.Properties[n].Value)</div>
+                                            </li>
+                                        }
+                                    </ul>
+                                </div>
                             </div>
-                        </div>
                         }
+
+
                         @Html.EditorFor(m => m.Extensions)
                     </td>
                 </tr>
@@ -268,27 +287,28 @@
     </div>
 </div>
 <div class="grid_3">
-    @if (!Model.Post.IsNew) {
-    <div class="box expandable hidden">
-        <div class="title"><h2>@Piranha.Resources.Global.Versioning</h2></div>
-        <div class="inner optional">
-            <ul class="list">
-                <li>@Piranha.Resources.Global.LastPublished <small class="right">
-                    @(Model.Post.LastPublished > DateTime.MinValue ? Model.Post.LastPublished.ToShortDateString() : "")</small></li>
-                <li>@Piranha.Resources.Global.Published <small class="right">
-                    @(Model.Post.Published > DateTime.MinValue ? Model.Post.Published.ToShortDateString() : "")</small></li>
-                <li>@Piranha.Resources.Global.Updated <small class="right">@Model.Post.Updated.ToShortDateString()</small></li>
-                <li>@Piranha.Resources.Global.Created <small class="right">@Model.Post.Created.ToShortDateString()</small></li>
-            </ul>
+    @if (!Model.Post.IsNew)
+    {
+        <div class="box expandable hidden">
+            <div class="title"><h2>@Global.Versioning</h2></div>
+            <div class="inner optional">
+                <ul class="list">
+                    <li>@Global.LastPublished <small class="right">
+                                                  @(Model.Post.LastPublished > DateTime.MinValue ? Model.Post.LastPublished.ToShortDateString() : string.Empty)</small></li>
+                    <li>@Global.Published <small class="right">
+                                              @(Model.Post.Published > DateTime.MinValue ? Model.Post.Published.ToShortDateString() : string.Empty)</small></li>
+                    <li>@Global.Updated <small class="right">@Model.Post.Updated.ToShortDateString()</small></li>
+                    <li>@Global.Created <small class="right">@Model.Post.Created.ToShortDateString()</small></li>
+                </ul>
+            </div>
         </div>
-    </div>
     }
 </div>
-@{ Html.EndForm() ; }
+@{ Html.EndForm(); }
 @section Foot {
- <div id="boxContent" class="floatbox">
-    <div class="bg"></div>
-    <div class="box" style="min-width: 510px;min-height:260px;">
+    <div id="boxContent" class="floatbox">
+        <div class="bg"></div>
+        <div class="box" style="min-height: 260px; min-width: 510px;">
+        </div>
     </div>
-</div>
 }

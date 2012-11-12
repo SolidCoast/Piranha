@@ -34,7 +34,7 @@ namespace Piranha.Models
 		/// <summary>
 		/// Gets/sets the confirmation password.
 		/// </summary>
-		[Compare("Password", ErrorMessage="Lösenorden matchar inte.")]
+		[System.ComponentModel.DataAnnotations.Compare("Password", ErrorMessage="Lösenorden matchar inte.")]
 		[Display(ResourceType=typeof(Piranha.Resources.Global), Name="Confirm")]
 		public string PasswordConfirm { get ; set ; }
 

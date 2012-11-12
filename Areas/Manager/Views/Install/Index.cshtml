@@ -1,55 +1,57 @@
-﻿@{
-    ViewBag.Title = Piranha.Resources.Account.InstallTitle ;
-    Layout = "" ;
+﻿@using Piranha.Resources
+@{
+    ViewBag.Title = Account.InstallTitle;
+    Layout = string.Empty;
+
 }
 <!DOCTYPE html>
 <html>
-<head>
-    <meta http-equiv="content-type" content="text/html; charset=utf-8"/>
-    <title>@Piranha.Resources.Account.InstallTitle</title>
-    <link rel="icon" href="@Url.Content("~/content/img/icon.ico")" type="image/x-icon">
-    <link rel="shortcut icon" href="@Url.Content("~/content/img/icon.ico")" type="image/x-icon"> 
-    <link href="@Url.Content("~/Areas/Manager/Content/Css/Style.ashx")" rel="stylesheet" type="text/css"/>
-    <script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.6.4/jquery.min.js"></script>
-    <script type="text/javascript">
-        $(document).ready(function () {
-            $(".message").click(function () { $(this).fadeOut("medium"); });
+    <head>
+        <meta http-equiv="content-type" content="text/html; charset=utf-8"/>
+        <title>@Account.InstallTitle</title>
+        <link rel="icon" href="@Url.Content("~/content/img/icon.ico")" type="image/x-icon">
+        <link rel="shortcut icon" href="@Url.Content("~/content/img/icon.ico")" type="image/x-icon"> 
+        <link href="@Url.Content("~/Areas/Manager/Content/Css/Style.ashx")" rel="stylesheet" type="text/css"/>
+        <script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.6.4/jquery.min.js"> </script>
+        <script type="text/javascript">
+            $(document).ready(function() {
+                $(".message").click(function() { $(this).fadeOut("medium"); });
 
-            if ($("#sysMsg").text() != "") {
-                floatBox.show("boxMessage");
-            }
+                if ($("#sysMsg").text() != "") {
+                    floatBox.show("boxMessage");
+                }
 
-            $("#schema").click(function () {
-                $("#InstallType").attr("value", "SCHEMA");
+                $("#schema").click(function() {
+                    $("#InstallType").attr("value", "SCHEMA");
+                });
             });
-        });
-    </script>
-</head>
-<body>
-    <div class="container_12">
-        <div class="grid_4 box login">
-            <div class="title"><h2>@Piranha.Resources.Account.InstallTitle</h2></div>
-            <div class="inner">
-                @{ Html.BeginForm("create", "install") ; }
-                <ul class="form">
-                    <li><label>@Piranha.Resources.Global.Username</label>
-                        <div class="input"><input name="UserLogin" type="text" /></div></li>
-                    <li><label>@Piranha.Resources.Global.Password</label>
-                        <div class="input"><input name="Password" type="password" /></div></li>
-                    <li><label>@Piranha.Resources.Global.Confirm</label>
-                        <div class="input"><input name="PasswordConfirm" type="password" /></div></li>
-                    <li><label>@Piranha.Resources.Settings.Email</label>
-                        <div class="input"><input name="UserEmail" type="text" /></div></li>
-                    <input type="hidden" id="InstallType" name="InstallType" value="FULL" />
-                    <div class="separator"></div>
-                    <br />
-                    <button id="schema" class="btn orange right big">@Piranha.Resources.Account.InstallSchema</button>
-                    <button id="full" class="btn blue big">@Piranha.Resources.Account.InstallSite</button>
-                </ul>
-                @{ Html.EndForm() ; }
-                <div class="clear"></div>
+        </script>
+    </head>
+    <body>
+        <div class="container_12">
+            <div class="grid_4 box login">
+                <div class="title"><h2>@Account.InstallTitle</h2></div>
+                <div class="inner">
+                    @{ Html.BeginForm("create", "install"); }
+                    <ul class="form">
+                        <li><label>@Global.Username</label>
+                            <div class="input"><input name="UserLogin" type="text" /></div></li>
+                        <li><label>@Global.Password</label>
+                            <div class="input"><input name="Password" type="password" /></div></li>
+                        <li><label>@Global.Confirm</label>
+                            <div class="input"><input name="PasswordConfirm" type="password" /></div></li>
+                        <li><label>@Settings.Email</label>
+                            <div class="input"><input name="UserEmail" type="text" /></div></li>
+                        <input type="hidden" id="InstallType" name="InstallType" value="FULL" />
+                        <div class="separator"></div>
+                        <br />
+                        <button id="schema" class="btn orange right big">@Account.InstallSchema</button>
+                        <button id="full" class="btn blue big">@Account.InstallSite</button>
+                    </ul>
+                    @{ Html.EndForm(); }
+                    <div class="clear"></div>
+                </div>
             </div>
         </div>
-    </div>
-</body>
+    </body>
 </html>

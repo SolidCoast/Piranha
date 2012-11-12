@@ -6,10 +6,10 @@
 
 var posFixed = null;
 
-$(document).ready(function () {
+$(document).ready(function() {
     posFixed = $('.btn-content').position();
 
-    $('.main-content .tools a').click(function () {
+    $('.main-content .tools a').click(function() {
         var id = $(this).attr('data-id');
 
         $('.main-content .tools li').removeClass('active');
@@ -21,7 +21,7 @@ $(document).ready(function () {
     });
 });
 
-$(window).bind('scroll', function (e) {
+$(window).bind('scroll', function(e) {
     if ($(this).scrollTop() > posFixed.top + 20) {
         if (!isFixed)
             $('.mceToolbar').hide();

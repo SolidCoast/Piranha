@@ -5,34 +5,34 @@
 */
 
 if (!piranha)
-    var piranha = {};
+    var piranha = { };
 
 piranha.folderId = null;
-piranha.media = function (buttonId, floatboxId, callback) {
+piranha.media = function(buttonId, floatboxId, callback) {
     var self = this;
 
     this.btnId = buttonId;
     this.boxId = floatboxId;
     this.cb = callback;
 
-    this.buttonClick = function () {
+    this.buttonClick = function() {
         $('#' + self.boxId + ' .box > div').remove();
         floatBox.show(self.boxId);
         $.ajax({
             url: siteroot + 'manager/content/popup' + (piranha.folderId ? '/' + piranha.folderId : ''),
-            success: function (data) {
+            success: function(data) {
                 $('#' + self.boxId + ' .box').html('');
                 $('#' + self.boxId + ' .box').append(data);
                 floatBox.position($('#' + self.boxId + ' .box'));
             }
         });
     };
-    this.mediaClick = function () {
+    this.mediaClick = function() {
         if (!$(this).hasClass("folder")) {
             $.ajax({
                 url: siteroot + "rest/content/get/" + $(this).attr("data-id"),
                 dataType: "json",
-                success: function (data) {
+                success: function(data) {
                     if (self.cb)
                         self.cb(data);
                     floatBox.close(self.boxId);
@@ -40,19 +40,19 @@ piranha.media = function (buttonId, floatboxId, callback) {
             });
         }
     };
-    this.folderClick = function () {
+    this.folderClick = function() {
         piranha.folderId = $(this).attr("data-id");
 
         $.ajax({
             url: siteroot + "manager/content/popup/" + $(this).attr("data-id"),
-            success: function (data) {
+            success: function(data) {
                 $('#' + self.boxId + ' .box').html('');
                 $('#' + self.boxId + ' .box').append(data);
                 floatBox.position($('#' + self.boxId + ' .box'));
             }
         });
     };
-    this.boxClose = function () {
+    this.boxClose = function() {
         floatBox.close(self.boxId);
     };
 
