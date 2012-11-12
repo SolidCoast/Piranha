@@ -11,10 +11,11 @@
     <AppDesignerFolder>Properties</AppDesignerFolder>
     <RootNamespace>Piranha</RootNamespace>
     <AssemblyName>Piranha</AssemblyName>
-    <TargetFrameworkVersion>v4.0</TargetFrameworkVersion>
+    <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <SolutionDir Condition="$(SolutionDir) == '' Or $(SolutionDir) == '*Undefined*'">..\</SolutionDir>
     <RestorePackages>true</RestorePackages>
+    <TargetFrameworkProfile />
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <DebugSymbols>true</DebugSymbols>
@@ -24,6 +25,7 @@
     <DefineConstants>DEBUG;TRACE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
+    <Prefer32Bit>false</Prefer32Bit>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
     <DebugType>pdbonly</DebugType>
@@ -32,8 +34,17 @@
     <DefineConstants>TRACE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
+    <Prefer32Bit>false</Prefer32Bit>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="Microsoft.CSharp" />
+    <Reference Include="Microsoft.Web.Infrastructure, Version=1.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <Private>True</Private>
+      <HintPath>..\packages\Microsoft.Web.Infrastructure.1.0.0.0\lib\net40\Microsoft.Web.Infrastructure.dll</HintPath>
+    </Reference>
+    <Reference Include="RazorGenerator.Mvc">
+      <HintPath>..\packages\RazorGenerator.Mvc.1.4.0.0\lib\net40\RazorGenerator.Mvc.dll</HintPath>
+    </Reference>
     <Reference Include="System" />
     <Reference Include="System.ComponentModel.DataAnnotations" />
     <Reference Include="System.configuration" />
@@ -45,15 +56,18 @@
     <Reference Include="System.ServiceModel.Web" />
     <Reference Include="System.Web" />
     <Reference Include="System.Web.Extensions" />
-    <Reference Include="System.Web.Mvc, Version=3.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL" />
-    <Reference Include="System.Web.WebPages, Version=1.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL" />
+    <Reference Include="System.Web.Mvc, Version=4.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL" />
+    <Reference Include="System.Web.WebPages, Version=2.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL" />
     <Reference Include="System.Windows.Forms" />
     <Reference Include="System.Data.DataSetExtensions" />
-    <Reference Include="Microsoft.CSharp" />
     <Reference Include="System.Data" />
     <Reference Include="System.Xml" />
+    <Reference Include="WebActivator">
+      <HintPath>..\packages\WebActivator.1.4.4\lib\net40\WebActivator.dll</HintPath>
+    </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="App_Start\PiranhaCmsMvcStart.cs" />
     <Compile Include="Areas\Manager\Content\Css\Style.ashx.cs">
       <DependentUpon>Style.ashx</DependentUpon>
     </Compile>
@@ -69,6 +83,201 @@
     <Compile Include="Areas\Manager\Controllers\SettingsController.cs" />
     <Compile Include="Areas\Manager\Controllers\TemplateController.cs" />
     <Compile Include="Areas\Manager\Controllers\UploadController.cs" />
+    <Compile Include="Areas\Manager\Views\Account\Index.generated.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>Index.cshtml</DependentUpon>
+    </Compile>
+    <Compile Include="Areas\Manager\Views\Content\Edit.generated.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>Edit.cshtml</DependentUpon>
+    </Compile>
+    <Compile Include="Areas\Manager\Views\Content\Index.generated.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>Index.cshtml</DependentUpon>
+    </Compile>
+    <Compile Include="Areas\Manager\Views\Content\Partial\ContentTree.generated.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>ContentTree.cshtml</DependentUpon>
+    </Compile>
+    <Compile Include="Areas\Manager\Views\Content\Popup.generated.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>Popup.cshtml</DependentUpon>
+    </Compile>
+    <Compile Include="Areas\Manager\Views\Content\Uploads.generated.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>Uploads.cshtml</DependentUpon>
+    </Compile>
+    <None Include="Areas\Manager\Views\Extensions\Piranha.Extend.Regions\HtmlRegion.generated.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>HtmlRegion.cshtml</DependentUpon>
+    </None>
+    <Compile Include="Areas\Manager\Views\Install\Index.generated.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>Index.cshtml</DependentUpon>
+    </Compile>
+    <Compile Include="Areas\Manager\Views\Install\Update.generated.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>Update.cshtml</DependentUpon>
+    </Compile>
+    <Compile Include="Areas\Manager\Views\Page\Edit.generated.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>Edit.cshtml</DependentUpon>
+    </Compile>
+    <Compile Include="Areas\Manager\Views\Page\Index.generated.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>Index.cshtml</DependentUpon>
+    </Compile>
+    <Compile Include="Areas\Manager\Views\Page\Partial\SiteTree.generated.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>SiteTree.cshtml</DependentUpon>
+    </Compile>
+    <Compile Include="Areas\Manager\Views\Page\Siblings.generated.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>Siblings.cshtml</DependentUpon>
+    </Compile>
+    <Compile Include="Areas\Manager\Views\Post\Edit.generated.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>Edit.cshtml</DependentUpon>
+    </Compile>
+    <Compile Include="Areas\Manager\Views\Post\Index.generated.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>Index.cshtml</DependentUpon>
+    </Compile>
+    <Compile Include="Areas\Manager\Views\Settings\Access.generated.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>Access.cshtml</DependentUpon>
+    </Compile>
+    <Compile Include="Areas\Manager\Views\Settings\AccessList.generated.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>AccessList.cshtml</DependentUpon>
+    </Compile>
+    <Compile Include="Areas\Manager\Views\Settings\ExternalList.generated.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>ExternalList.cshtml</DependentUpon>
+    </Compile>
+    <Compile Include="Areas\Manager\Views\Settings\Group.generated.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>Group.cshtml</DependentUpon>
+    </Compile>
+    <Compile Include="Areas\Manager\Views\Settings\GroupList.generated.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>GroupList.cshtml</DependentUpon>
+    </Compile>
+    <Compile Include="Areas\Manager\Views\Settings\Param.generated.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>Param.cshtml</DependentUpon>
+    </Compile>
+    <Compile Include="Areas\Manager\Views\Settings\ParamList.generated.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>ParamList.cshtml</DependentUpon>
+    </Compile>
+    <Compile Include="Areas\Manager\Views\Settings\User.generated.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>User.cshtml</DependentUpon>
+    </Compile>
+    <Compile Include="Areas\Manager\Views\Settings\UserList.generated.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>UserList.cshtml</DependentUpon>
+    </Compile>
+    <Compile Include="Areas\Manager\Views\Shared\EditorTemplates\Extension.generated.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>Extension.cshtml</DependentUpon>
+    </Compile>
+    <Compile Include="Areas\Manager\Views\Shared\EditorTemplates\Region.generated.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>Region.cshtml</DependentUpon>
+    </Compile>
+    <Compile Include="Areas\Manager\Views\Shared\EditorTemplates\RegionTemplate.generated.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>RegionTemplate.cshtml</DependentUpon>
+    </Compile>
+    <Compile Include="Areas\Manager\Views\Shared\Partial\Attachments.generated.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>Attachments.cshtml</DependentUpon>
+    </Compile>
+    <Compile Include="Areas\Manager\Views\Shared\Partial\GroupList.generated.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>GroupList.cshtml</DependentUpon>
+    </Compile>
+    <Compile Include="Areas\Manager\Views\Shared\Partial\Menu.generated.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>Menu.cshtml</DependentUpon>
+    </Compile>
+    <Compile Include="Areas\Manager\Views\Shared\Partial\Tabs.generated.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>Tabs.cshtml</DependentUpon>
+    </Compile>
+    <Compile Include="Areas\Manager\Views\Shared\Partial\TinyMCE.generated.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>TinyMCE.cshtml</DependentUpon>
+    </Compile>
+    <Compile Include="Areas\Manager\Views\Shared\_Layout.generated.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>_Layout.cshtml</DependentUpon>
+    </Compile>
+    <Compile Include="Areas\Manager\Views\Template\PageEdit.generated.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>PageEdit.cshtml</DependentUpon>
+    </Compile>
+    <Compile Include="Areas\Manager\Views\Template\PageList.generated.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>PageList.cshtml</DependentUpon>
+    </Compile>
+    <Compile Include="Areas\Manager\Views\Template\PostEdit.generated.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>PostEdit.cshtml</DependentUpon>
+    </Compile>
+    <Compile Include="Areas\Manager\Views\Template\PostList.generated.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>PostList.cshtml</DependentUpon>
+    </Compile>
+    <Compile Include="Areas\Manager\Views\Template\Region.generated.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>Region.cshtml</DependentUpon>
+    </Compile>
+    <Compile Include="Areas\Manager\Views\_ViewStart.generated.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>_ViewStart.cshtml</DependentUpon>
+    </Compile>
     <Compile Include="Data\Updates\IUpdate.cs" />
     <Compile Include="Data\Updates\Update13.cs" />
     <Compile Include="Delegates.cs" />
@@ -207,7 +416,7 @@
     <Compile Include="Entities\Upload.cs" />
     <Compile Include="AccessAttribute.cs" />
     <Compile Include="Mvc\BaseViewPage.cs" />
-    <Compile Include="Mvc\ManagerViewEngine.cs" />
+    <Compile Include="Mvc\PirahnaCmsViewEngine.cs" />
     <Compile Include="Mvc\ModelBinders\IExtensionBinder.cs" />
     <Compile Include="Mvc\PiranhaHelper.cs" />
     <Compile Include="Mvc\SinglePage.cs" />
@@ -249,7 +458,6 @@
     <Compile Include="WebPages\WebThumbnail.cs" />
     <Compile Include="Web\AuthController.cs" />
     <Compile Include="Web\CultureHelper.cs" />
-    <Compile Include="Web\GravatarHelper.cs" />
     <Compile Include="Web\ResourceHandler.cs" />
     <Compile Include="Web\ResourcePathProvider.cs" />
     <Compile Include="WebPages\SinglePage.cs" />
@@ -323,51 +531,175 @@
     <EmbeddedResource Include="Data\Scripts\Drop.sql" />
   </ItemGroup>
   <ItemGroup>
-    <EmbeddedResource Include="Areas\Manager\Views\_ViewStart.cshtml" />
-    <EmbeddedResource Include="Areas\Manager\Views\Account\Index.cshtml" />
-    <EmbeddedResource Include="Areas\Manager\Views\Content\Edit.cshtml" />
-    <EmbeddedResource Include="Areas\Manager\Views\Content\Index.cshtml" />
-    <EmbeddedResource Include="Areas\Manager\Views\Page\Edit.cshtml" />
-    <EmbeddedResource Include="Areas\Manager\Views\Shared\EditorTemplates\Region.cshtml" />
-    <EmbeddedResource Include="Areas\Manager\Views\Page\Index.cshtml" />
-    <EmbeddedResource Include="Areas\Manager\Views\Shared\Partial\Attachments.cshtml" />
-    <EmbeddedResource Include="Areas\Manager\Views\Post\Edit.cshtml" />
-    <EmbeddedResource Include="Areas\Manager\Views\Post\Index.cshtml" />
-    <EmbeddedResource Include="Areas\Manager\Views\Settings\Access.cshtml" />
-    <EmbeddedResource Include="Areas\Manager\Views\Settings\Group.cshtml" />
-    <EmbeddedResource Include="Areas\Manager\Views\Settings\Param.cshtml" />
-    <EmbeddedResource Include="Areas\Manager\Views\Settings\User.cshtml" />
-    <EmbeddedResource Include="Areas\Manager\Views\Shared\_Layout.cshtml" />
-    <EmbeddedResource Include="Areas\Manager\Views\Shared\Partial\TinyMCE.cshtml" />
-    <EmbeddedResource Include="Areas\Manager\Views\Template\PageEdit.cshtml" />
-    <EmbeddedResource Include="Areas\Manager\Views\Template\PostEdit.cshtml" />
+    <None Include="Areas\Manager\Views\_ViewStart.cshtml">
+      <Generator>RazorGenerator</Generator>
+      <LastGenOutput>_ViewStart.generated.cs</LastGenOutput>
+    </None>
+    <EmbeddedResource Include="Areas\Manager\Views\Account\Index.cshtml">
+      <Generator>RazorGenerator</Generator>
+      <LastGenOutput>Index.generated.cs</LastGenOutput>
+    </EmbeddedResource>
+    <None Include="Areas\Manager\Views\Content\Edit.cshtml">
+      <Generator>RazorGenerator</Generator>
+      <LastGenOutput>Edit.generated.cs</LastGenOutput>
+    </None>
+    <None Include="Areas\Manager\Views\Content\Index.cshtml">
+      <Generator>RazorGenerator</Generator>
+      <LastGenOutput>Index.generated.cs</LastGenOutput>
+    </None>
+    <None Include="Areas\Manager\Views\Page\Edit.cshtml">
+      <Generator>RazorGenerator</Generator>
+      <LastGenOutput>Edit.generated.cs</LastGenOutput>
+    </None>
+    <None Include="Areas\Manager\Views\Shared\EditorTemplates\Region.cshtml">
+      <Generator>RazorGenerator</Generator>
+      <LastGenOutput>Region.generated.cs</LastGenOutput>
+    </None>
+    <None Include="Areas\Manager\Views\Page\Index.cshtml">
+      <Generator>RazorGenerator</Generator>
+      <LastGenOutput>Index.generated.cs</LastGenOutput>
+    </None>
+    <None Include="Areas\Manager\Views\Shared\Partial\Attachments.cshtml">
+      <Generator>RazorGenerator</Generator>
+      <LastGenOutput>Attachments.generated.cs</LastGenOutput>
+    </None>
+    <None Include="Areas\Manager\Views\Post\Edit.cshtml">
+      <Generator>RazorGenerator</Generator>
+      <LastGenOutput>Edit.generated.cs</LastGenOutput>
+    </None>
+    <None Include="Areas\Manager\Views\Post\Index.cshtml">
+      <Generator>RazorGenerator</Generator>
+      <LastGenOutput>Index.generated.cs</LastGenOutput>
+    </None>
+    <None Include="Areas\Manager\Views\Settings\Access.cshtml">
+      <Generator>RazorGenerator</Generator>
+      <LastGenOutput>Access.generated.cs</LastGenOutput>
+    </None>
+    <None Include="Areas\Manager\Views\Settings\Group.cshtml">
+      <Generator>RazorGenerator</Generator>
+      <LastGenOutput>Group.generated.cs</LastGenOutput>
+    </None>
+    <None Include="Areas\Manager\Views\Settings\Param.cshtml">
+      <Generator>RazorGenerator</Generator>
+      <LastGenOutput>Param.generated.cs</LastGenOutput>
+    </None>
+    <None Include="Areas\Manager\Views\Settings\User.cshtml">
+      <Generator>RazorGenerator</Generator>
+      <LastGenOutput>User.generated.cs</LastGenOutput>
+    </None>
+    <None Include="Areas\Manager\Views\Shared\_Layout.cshtml">
+      <Generator>RazorGenerator</Generator>
+      <LastGenOutput>_Layout.generated.cs</LastGenOutput>
+    </None>
+    <None Include="Areas\Manager\Views\Shared\Partial\TinyMCE.cshtml">
+      <Generator>RazorGenerator</Generator>
+      <LastGenOutput>TinyMCE.generated.cs</LastGenOutput>
+    </None>
+    <None Include="Areas\Manager\Views\Template\PageEdit.cshtml">
+      <Generator>RazorGenerator</Generator>
+      <LastGenOutput>PageEdit.generated.cs</LastGenOutput>
+    </None>
+    <None Include="Areas\Manager\Views\Template\PostEdit.cshtml">
+      <Generator>RazorGenerator</Generator>
+      <LastGenOutput>PostEdit.generated.cs</LastGenOutput>
+    </None>
     <EmbeddedResource Include="Areas\Manager\Content\Css\Style.ashx" />
     <EmbeddedResource Include="Areas\Manager\Content\Js\Script.ashx" />
-    <EmbeddedResource Include="Areas\Manager\Views\Web.config" />
-    <EmbeddedResource Include="Areas\Manager\Views\Shared\Partial\Menu.cshtml" />
-    <EmbeddedResource Include="Areas\Manager\Views\Install\Index.cshtml" />
-    <EmbeddedResource Include="Areas\Manager\Views\Category\Edit.cshtml" />
-    <EmbeddedResource Include="Areas\Manager\Views\Install\Update.cshtml" />
-    <EmbeddedResource Include="Areas\Manager\Views\Content\Popup.cshtml" />
-    <EmbeddedResource Include="Areas\Manager\Views\Template\PageList.cshtml" />
-    <EmbeddedResource Include="Areas\Manager\Views\Template\PostList.cshtml" />
-    <EmbeddedResource Include="Areas\Manager\Views\Category\Index.cshtml" />
-    <EmbeddedResource Include="Areas\Manager\Views\Settings\UserList.cshtml" />
-    <EmbeddedResource Include="Areas\Manager\Views\Settings\GroupList.cshtml" />
-    <EmbeddedResource Include="Areas\Manager\Views\Settings\AccessList.cshtml" />
-    <EmbeddedResource Include="Areas\Manager\Views\Settings\ParamList.cshtml" />
-    <EmbeddedResource Include="Areas\Manager\Views\Page\Partial\SiteTree.cshtml" />
-    <EmbeddedResource Include="Areas\Manager\Views\Content\Uploads.cshtml" />
-    <EmbeddedResource Include="Areas\Manager\Views\Settings\ExternalList.cshtml" />
-    <EmbeddedResource Include="Areas\Manager\Views\Page\Siblings.cshtml" />
-    <EmbeddedResource Include="Areas\Manager\Views\Content\Partial\ContentTree.cshtml" />
-    <EmbeddedResource Include="Areas\Manager\Views\Shared\EditorTemplates\RegionTemplate.cshtml" />
-    <EmbeddedResource Include="Areas\Manager\Views\Template\Region.cshtml" />
-    <EmbeddedResource Include="Areas\Manager\Views\Extensions\Piranha.Extend.Regions\HtmlRegion.cshtml" />
-    <EmbeddedResource Include="Areas\Manager\Views\Shared\Partial\GroupList.cshtml" />
-    <EmbeddedResource Include="Areas\Manager\Views\Extensions\Piranha.Extend.Regions\ImageRegion.cshtml" />
-    <EmbeddedResource Include="Areas\Manager\Views\Shared\EditorTemplates\Extension.cshtml" />
-    <EmbeddedResource Include="Areas\Manager\Views\Shared\Partial\Tabs.cshtml" />
+    <None Include="Areas\Manager\Views\Shared\Partial\Menu.cshtml">
+      <Generator>RazorGenerator</Generator>
+      <LastGenOutput>Menu.generated.cs</LastGenOutput>
+    </None>
+    <None Include="Areas\Manager\Views\Install\Index.cshtml">
+      <Generator>RazorGenerator</Generator>
+      <LastGenOutput>Index.generated.cs</LastGenOutput>
+    </None>
+    <EmbeddedResource Include="Areas\Manager\Views\Category\Edit.cshtml">
+      <CustomToolNamespace>RazorGenerator</CustomToolNamespace>
+    </EmbeddedResource>
+    <None Include="Areas\Manager\Views\Install\Update.cshtml">
+      <Generator>RazorGenerator</Generator>
+      <LastGenOutput>Update.generated.cs</LastGenOutput>
+    </None>
+    <None Include="Areas\Manager\Views\Content\Popup.cshtml">
+      <Generator>RazorGenerator</Generator>
+      <LastGenOutput>Popup.generated.cs</LastGenOutput>
+    </None>
+    <None Include="Areas\Manager\Views\Template\PageList.cshtml">
+      <Generator>RazorGenerator</Generator>
+      <LastGenOutput>PageList.generated.cs</LastGenOutput>
+    </None>
+    <None Include="Areas\Manager\Views\Template\PostList.cshtml">
+      <Generator>RazorGenerator</Generator>
+      <LastGenOutput>PostList.generated.cs</LastGenOutput>
+    </None>
+    <EmbeddedResource Include="Areas\Manager\Views\Category\Index.cshtml">
+      <CustomToolNamespace>RazorGenerator</CustomToolNamespace>
+    </EmbeddedResource>
+    <None Include="Areas\Manager\Views\Settings\UserList.cshtml">
+      <Generator>RazorGenerator</Generator>
+      <LastGenOutput>UserList.generated.cs</LastGenOutput>
+    </None>
+    <None Include="Areas\Manager\Views\Settings\GroupList.cshtml">
+      <Generator>RazorGenerator</Generator>
+      <LastGenOutput>GroupList.generated.cs</LastGenOutput>
+    </None>
+    <None Include="Areas\Manager\Views\Settings\AccessList.cshtml">
+      <Generator>RazorGenerator</Generator>
+      <LastGenOutput>AccessList.generated.cs</LastGenOutput>
+    </None>
+    <None Include="Areas\Manager\Views\Settings\ParamList.cshtml">
+      <Generator>RazorGenerator</Generator>
+      <LastGenOutput>ParamList.generated.cs</LastGenOutput>
+    </None>
+    <None Include="Areas\Manager\Views\Page\Partial\SiteTree.cshtml">
+      <Generator>RazorGenerator</Generator>
+      <LastGenOutput>SiteTree.generated.cs</LastGenOutput>
+    </None>
+    <None Include="Areas\Manager\Views\Content\Uploads.cshtml">
+      <Generator>RazorGenerator</Generator>
+      <LastGenOutput>Uploads.generated.cs</LastGenOutput>
+    </None>
+    <None Include="Areas\Manager\Views\Settings\ExternalList.cshtml">
+      <Generator>RazorGenerator</Generator>
+      <LastGenOutput>ExternalList.generated.cs</LastGenOutput>
+    </None>
+    <None Include="Areas\Manager\Views\Page\Siblings.cshtml">
+      <Generator>RazorGenerator</Generator>
+      <LastGenOutput>Siblings.generated.cs</LastGenOutput>
+    </None>
+    <None Include="Areas\Manager\Views\Content\Partial\ContentTree.cshtml">
+      <Generator>RazorGenerator</Generator>
+      <LastGenOutput>ContentTree.generated.cs</LastGenOutput>
+    </None>
+    <None Include="Areas\Manager\Views\Shared\EditorTemplates\RegionTemplate.cshtml">
+      <Generator>RazorGenerator</Generator>
+      <LastGenOutput>RegionTemplate.generated.cs</LastGenOutput>
+    </None>
+    <None Include="Areas\Manager\Views\Template\Region.cshtml">
+      <Generator>RazorGenerator</Generator>
+      <LastGenOutput>Region.generated.cs</LastGenOutput>
+    </None>
+    <None Include="Areas\Manager\Views\Extensions\Piranha.Extend.Regions\HtmlRegion.cshtml">
+      <Generator>RazorGenerator</Generator>
+      <LastGenOutput>HtmlRegion.generated.cs</LastGenOutput>
+      <CustomToolNamespace>Piranha.Extend.Regions</CustomToolNamespace>
+    </None>
+    <None Include="Areas\Manager\Views\Shared\Partial\GroupList.cshtml">
+      <Generator>RazorGenerator</Generator>
+      <LastGenOutput>GroupList.generated.cs</LastGenOutput>
+    </None>
+    <None Include="Areas\Manager\Views\Extensions\Piranha.Extend.Regions\ImageRegion.cshtml">
+      <CustomToolNamespace>Piranha.Extend.Regions</CustomToolNamespace>
+    </None>
+    <None Include="Areas\Manager\Views\Shared\EditorTemplates\Extension.cshtml">
+      <Generator>RazorGenerator</Generator>
+      <LastGenOutput>Extension.generated.cs</LastGenOutput>
+    </None>
+    <None Include="Areas\Manager\Views\Shared\Partial\Tabs.cshtml">
+      <Generator>RazorGenerator</Generator>
+      <LastGenOutput>Tabs.generated.cs</LastGenOutput>
+    </None>
+    <None Include="Web.config" />
     <None Include="LICENSE.md" />
     <None Include="packages.config">
       <SubType>Designer</SubType>
